@@ -1,0 +1,33 @@
+stages:
+  pull selenoid images:
+    description: pulling needed selenoid images, server,ui,video-recorder and the broweser chrome
+    setup:
+      -
+        command: docker pull aerokube/selenoid:1.9.2
+      -
+        command: docker pull aerokube/selenoid-ui:1.9.0
+      -
+        command: docker pull selenoid/video-recorder:latest-release
+      -
+        command: docker pull selenoid/vnc_chrome:83.0
+
+  configure selenoid files:
+    description:   setting needed files, notice that need to give permission with password.
+    directory: selenoid/video
+    setup:
+      -
+        command: sudo chmod 777 {{user.home}}/selenoid
+      -
+        command: sudo chmod 777 {{user.home}}/selenoid/video
+      -
+        command: cp {{script.directory.path}}/browsers.json {{user.home}}/selenoid/browsers.json
+
+  run selenoid:
+    description: run selenoid server and ui
+    setup:
+      -
+        command: docker run -d --name selenoid --restart always -p 8081:4444 -v /var/run/docker.sock:/var/run/docker.sock -v {{user.home}}/selenoid:/etc/selenoid/:ro -v {{user.home}}/selenoid/video:/opt/selenoid/video -e OVERRIDE_VIDEO_OUTPUT_DIR={{user.home}}/selenoid/video/ aerokube/selenoid:1.9.2 -limit 2 -timeout 5m0s -service-startup-timeout 2m0s
+      -
+        command: docker run -d --name selenoid-ui --link selenoid -p 8080:8080  aerokube/selenoid-ui:1.9.0 --selenoid-uri=http://selenoid:4444
+      -
+        command: open http://localhost:8080

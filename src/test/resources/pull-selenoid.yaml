@@ -1,0 +1,12 @@
+stages:
+  pull selenoid images:
+    description: pulling needed selenoid images, server,ui,video-recorder and the broweser chrome
+    setup:
+      -
+        command: docker pull aerokube/selenoid:1.9.2
+      -
+        command: docker pull aerokube/selenoid-ui:1.9.0
+      -
+        command: docker pull selenoid/video-recorder:latest-release
+      -
+        command: docker pull selenoid/vnc_chrome:83.0

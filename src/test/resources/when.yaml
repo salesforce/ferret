@@ -1,0 +1,58 @@
+stages:
+  check when conditions:
+    description: check multi conditions
+    when:
+      operator: or
+      conditions:
+           -
+            operator: equals
+            command: git --version
+            compareTo: git version 2.28.0www
+           -
+            operator:  exit_code_equals
+            command: git --version
+            compareTo: 0
+
+    setup:
+      -
+        command: docker pull aerokube/selenoid:1.9.2
+
+
+  check when condition:
+    description: checking one condition
+    when:
+      condition:
+        operator: equals
+        command: git --version
+        compareTo: git version 2.28.0
+    setup:
+      -
+        command: docker pull aerokube/selenoid:1.9.2
+
+  start docker:
+    description: start docker if it's not up
+    when:
+      condition:
+        operator: not_contains
+        command: docker version
+        compareTo: "Server: Docker Engine"
+    setup:
+      -
+        command: open -a Docker
+
+
+
+  check docker is up:
+    description: checking timeout and stop script if failed when
+    when:
+      timeout: 20s
+      retryInterval: 5s
+      fail: true
+      condition:
+        operator: contains
+        command: docker version
+        compareTo: "Server: Docker Engine"
+    setup:
+         -
+           command: echo "docker is up"
+

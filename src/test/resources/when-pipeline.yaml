@@ -1,0 +1,8 @@
+when:
+  condition:
+    requestBoolean: to execute this part?
+    customQuestion: to do?
+stages:
+  stage:
+    setup:
+      - command: echo runned

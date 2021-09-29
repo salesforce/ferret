@@ -1,0 +1,22 @@
+stages:
+  setup docker:
+    description: setup selenoid local from remote
+    setup:
+      - apply:
+          remote:
+            owner: datorama
+            repository: ferret
+            branch: master
+            file: /src/test/resources/selenoid-local-remote.yaml
+
+  teardown:
+    description: remove docker with apply
+    setup:
+      - apply:
+            file: {{script.directory.path}}/teardown-docker-containers.yaml
+
+  apply pipeline:
+    description: applying pipeline from common repository
+    setup:
+      - apply:
+          pipeline: rabbitmq-local

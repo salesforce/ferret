@@ -1,0 +1,12 @@
+properties:
+  -
+    key: wow
+    description: checking how wow it is
+  -
+    key: another
+    type: user.
+    description: checking multi values
+    values:
+      - one
+      - two
+      - three

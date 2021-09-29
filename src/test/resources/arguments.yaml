@@ -1,0 +1,11 @@
+arguments:
+  -
+    key: check.arg
+    description: some check
+    defaultValue: value
+stages:
+  check arguments live:
+    description: checking injecting arguments correctly
+    setup:
+      -
+        command: echo {{argument.check.arg}}

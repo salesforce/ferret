@@ -1,0 +1,10 @@
+stages:
+  use argument in pipeline:
+    setup:
+      -
+        apply:
+          file: {{script.directory.path}}/arguments.yaml
+          arguments:
+            -
+              key: check.arg
+              value: popo

@@ -1,0 +1,15 @@
+stages:
+  test summary:
+    setup:
+      -
+        command: git --version
+    summary:
+      message: git works
+  check failing:
+    setup:
+      -
+        command: git --version
+    onFailure:
+      message: check check
+    summary:
+      message: lets try

@@ -1,0 +1,36 @@
+stages:
+  check request input:
+    description: checking request input
+    inputs:
+      -
+        key: name
+        request: please give me your name
+        defaultValue: pp
+    setup:
+      -
+        command: echo {{input.name}}
+
+  check input dynamic:
+    description: checking input dynamiclly
+    inputs:
+      -
+        key: wow
+        command: git --version
+    setup:
+      -
+        command: echo {{input.wow}}
+
+  configure selenoid files:
+    description: setting needed files, notice that need to give permission with password.
+    directory: selenoid/video
+    inputs:
+      - key: browsers
+        remote:
+          owner: datorama
+          repository: ferret
+          branch: master
+          file: /src/test/resources/browsers.json
+    setup:
+      - command: sudo chmod 777 {{user.home}}/selenoid
+      - command: sudo chmod 777 {{user.home}}/selenoid/video
+      - command: cp {{input.browsers}} {{user.home}}/selenoid/browsers.json

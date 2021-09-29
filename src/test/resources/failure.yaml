@@ -1,0 +1,8 @@
+stages:
+  test failure:
+    description: checking failing command
+    onFailure:
+      message: error message
+    setup:
+      -
+        command: git -aow

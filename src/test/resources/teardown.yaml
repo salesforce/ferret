@@ -1,0 +1,8 @@
+stages:
+  teardown conainters:
+    description: stop and rm containers
+    teardown:
+      -
+        command: docker stop $(docker ps -a -q)
+      -
+        command: docker rm $(docker ps -a -q)

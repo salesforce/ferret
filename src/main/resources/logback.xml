@@ -1,0 +1,23 @@
+<!--
+  ~  Copyright (c) 2021, salesforce.com, inc.
+  ~  All rights reserved.
+  ~  SPDX-License-Identifier: BSD-3-Clause
+  ~  For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+  ~
+  -->
+
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%cyan(%d{HH:mm:ss.SSS}) %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="com.datorama" level="error" />
+    <root level="error">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
