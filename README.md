@@ -5,10 +5,7 @@ Ferret is a Command-line application that executes Ferret pipelines written in Y
 ## Prerequisites
 
 - [Brew](https://brew.sh/)
-- [Github Token](https://github.com/datorama/ferret/wiki/Github-Token)
-- [Vault token](https://vault-dev.datorama.io/ui/vault/secrets/secret/show/read_only_token)
-- [Config-Server token](https://confluence.internal.salesforce.com/display/DEVOPS/Authentication)
-- [datorama-devops cli](https://confluence.internal.salesforce.com/display/DEVOPS/Datorama+DevOps+CLI)
+- [Github Token](https://github.com/datorama/ferret/wiki/Github-Token) (if you use private repository)
 
 
 ## Getting Started
@@ -28,8 +25,8 @@ $ ferret credentials --username=<GITHUB_USER> --token=<GITHUB_TOKEN>
 **Note:** If it fails or asks for a user/password than stop (<kbd>Ctrl</kbd> + <kbd>C</kbd>),  try instead:
 
 ```
-brew untap datorama/homebrew-ferret
-brew tap datorama/ferret git@github.com:datorama/homebrew-ferret.git
+brew untap salesforce/homebrew-ferret
+brew tap datorama/ferret git@github.com:salesforce/homebrew-ferret.git
 ```
 
 
