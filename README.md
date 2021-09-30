@@ -5,7 +5,7 @@ Ferret is a Command-line application that executes Ferret pipelines written in Y
 ## Prerequisites
 
 - [Brew](https://brew.sh/)
-- [Github Token](https://github.com/datorama/ferret/wiki/Github-Token) (if you use private repository)
+- [Github Token](https://github.com/salesforce/ferret/wiki/Github-Token) (if you use private repository)
 
 
 ## Getting Started
