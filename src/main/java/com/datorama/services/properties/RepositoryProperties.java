@@ -26,9 +26,7 @@ public class RepositoryProperties  {
 	public static final String BRANCH_NAME = "branch";
 
 	//when going open source delete the default values;
-	private static final String DEFAULT_REPOSITORY_NAME = "ferret-common";
-	private static final String DEFAULT_OWNER_NAME = "datorama";
-	private static final String DEFAULT_BRANCH_NAME = "master";
+
 	private static String getFileName() {
 		return "repository.properties";
 	}
