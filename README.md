@@ -80,7 +80,7 @@ One time command to setup ferret file system locally
 
 Information about all pipelines from the common repository that was configured by you.
 
-To configure common-repository use repository command to set location and use [credentials command](https://github.com/datorama/ferret/wiki/Credentials-command) to set token and user
+To configure common-repository use repository command to set location and use [credentials command](https://github.com/salesforce/ferret#credentials-command) to set token and user
 
 
 By typing `ferret pipelines` you will get a list of all ferret pipelines that are in your common repository.
@@ -94,7 +94,7 @@ By typing `ferret properties` you will see a list of all properties that are in 
 ### Repository command
 
 Settings for the common repository to get all ferret common pipeline and properties from VCS (git, etc.).
-If the repository need credentials to access configure it with [credentials command](https://github.com/datorama/ferret/wiki/Credentials-command)
+If the repository need credentials to access configure it with [credentials command](https://github.com/salesforce/ferret#credentials-command)
 
 `-b, --branch=<branch>   the repository branch name`
 
