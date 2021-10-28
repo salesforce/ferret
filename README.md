@@ -46,9 +46,7 @@ Pipelines from common repository (in pipelines directory):
 ...
 pipeline: redis-local | file in repository: redis-local.yaml
 pipeline: rabbitmq-local | file in repository: rabbitmq-local.yaml
-pipeline: lite-connect | file in repository: lite-connect.yaml
 pipeline: hybriddb-local | file in repository: hybriddb-local.yaml
-pipeline: dato/onboarding | file in repository: dato/onboarding.yaml
 ...
 ...
 
