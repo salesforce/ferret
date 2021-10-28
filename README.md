@@ -1,4 +1,4 @@
-[[https://github.com/salesforce/ferret/blob/main/wiki/images/ferret-banner.jpeg]]
+[[https://github.com/salesforce/ferret/blob/main/wiki/images/Ferret-banner.jpeg]]
 Welcome to the ferret wiki! the new way to run local pipelines on your local computer. From small pipelines to complex pipelines.
 
 Ferret is a Command-line application that executes Ferret pipelines written in YAML, there is **no** ferret server, it uses your organization git repositories to fetch the pipelines or files that you told it to get, to be used locally for you.
