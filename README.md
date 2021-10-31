@@ -17,10 +17,10 @@ Ferret is a Command-line application that executes Ferret pipelines written in Y
 Prepare your Github user and token, and run the following commands:
 
 ```
-$ brew tap datorama/ferret
+$ brew tap salesforce/ferret
 $ brew install ferret
 $ ferret init
-$ ferret repository --owner=datorama --repository=ferret-common --branch=master
+$ ferret repository --owner=salesforce --repository=ferret-common --branch=master
 $ ferret credentials --username=<GITHUB_USER> --token=<GITHUB_TOKEN>
 ```
 
@@ -40,8 +40,8 @@ List all the available pipelines, and then choose one and run it:
 ```
 $ ferret pipelines
 
-Pulling datorama/ferret-common...
-Finished pulling datorama/ferret-common
+Pulling salesforce/ferret-common...
+Finished pulling salesforce/ferret-common
 To run one of those pipelines, type: ferret setup --pipeline <pipeline-name>
 Pipelines from common repository (in pipelines directory):
 ...
