@@ -28,7 +28,7 @@ $ ferret credentials --username=<GITHUB_USER> --token=<GITHUB_TOKEN>
 
 ```
 brew untap salesforce/homebrew-ferret
-brew tap datorama/ferret git@github.com:salesforce/homebrew-ferret.git
+brew tap salesforce/ferret git@github.com:salesforce/homebrew-ferret.git
 ```
 
 
