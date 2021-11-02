@@ -20,7 +20,7 @@ Prepare your Github user and token, and run the following commands:
 $ brew tap salesforce/ferret
 $ brew install ferret
 $ ferret init
-$ ferret repository --owner=salesforce --repository=ferret-common --branch=master
+$ ferret repository --owner=salesforce --repository=ferret-common --branch=main
 $ ferret credentials --username=<GITHUB_USER> --token=<GITHUB_TOKEN>
 ```
 
