@@ -8,6 +8,12 @@
 
 package com.datorama.services.properties.directory;
 
+import com.datorama.common.Constants;
+import com.datorama.services.GlobalDirectoryService;
+import com.datorama.services.interfaces.PropertiesDirectory;
+import com.datorama.services.properties.FilePropertiesService;
+import org.jboss.logging.Logger;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,18 +21,9 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Properties;
 
-import org.slf4j.LoggerFactory;
-
-import com.datorama.common.Constants;
-import com.datorama.services.GlobalDirectoryService;
-import com.datorama.services.interfaces.PropertiesDirectory;
-import com.datorama.services.properties.FilePropertiesService;
-
-import ch.qos.logback.classic.Logger;
-
 public class UserPropertiesService implements PropertiesDirectory {
 	private static UserPropertiesService userPropertiesService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(UserPropertiesService.class);
+	private static final Logger log = Logger.getLogger(UserPropertiesService.class);
 
 	private UserPropertiesService() {
 		//Deny init

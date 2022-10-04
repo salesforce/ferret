@@ -8,19 +8,18 @@
 
 package com.datorama.models;
 
+import com.datorama.common.Constants;
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.datorama.common.Constants;
-
-import io.micronaut.core.annotation.Introspected;
-
-@Introspected
+@RegisterForReflection
 public class RemoteConfig {
-	private String owner;
-	private String repository;
-	private String branch;
-	private String file;
+	 String owner;
+	 String repository;
+	 String branch;
+	 String file;
 
 	public String getOwner() {
 		return owner;

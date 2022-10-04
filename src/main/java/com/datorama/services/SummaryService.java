@@ -8,6 +8,13 @@
 
 package com.datorama.services;
 
+import com.datorama.common.EmojiEnum;
+import com.datorama.models.Summary;
+import com.datorama.models.SummaryStage;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
+
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -15,19 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
-import com.datorama.common.EmojiEnum;
-import com.datorama.models.Summary;
-import com.datorama.models.SummaryStage;
-
-import ch.qos.logback.classic.Logger;
-
 public class SummaryService {
 	private static SummaryService summaryService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(SummaryService.class);
+	private static final Logger log = Logger.getLogger(SummaryService.class);
 	private List<SummaryStage> summaryStageList;
 	private Instant startTime;
 

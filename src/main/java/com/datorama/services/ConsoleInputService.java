@@ -8,14 +8,12 @@
 
 package com.datorama.services;
 
+import org.jboss.logging.Logger;
+
 import java.io.Console;
 
-import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.classic.Logger;
-
 public class ConsoleInputService {
-	private static final Logger log = (Logger) LoggerFactory.getLogger(ConsoleInputService.class);
+	private static final Logger log = Logger.getLogger(ConsoleInputService.class);
 
 	public static String getUserInput() {
 		Console console = System.console();

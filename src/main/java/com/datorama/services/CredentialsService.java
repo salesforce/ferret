@@ -8,22 +8,19 @@
 
 package com.datorama.services;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
-
-import org.slf4j.LoggerFactory;
-
 import com.datorama.common.Constants;
 import com.datorama.models.CredentialsProvider;
 import com.datorama.services.properties.CredentialsProperties;
 import com.datorama.services.properties.FilePropertiesService;
+import org.jboss.logging.Logger;
 
-import ch.qos.logback.classic.Logger;
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
 
 public class CredentialsService {
 	private static CredentialsService credentialsService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(CredentialsService.class);
+	private static final Logger log = Logger.getLogger(CredentialsService.class);
 
 	private CredentialsService() {
 	}

@@ -8,17 +8,16 @@
 
 package com.datorama.services.properties;
 
+import com.datorama.common.Constants;
+import com.datorama.models.RepositoryProvider;
+import com.datorama.services.GlobalDirectoryService;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Properties;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.datorama.common.Constants;
-import com.datorama.models.RepositoryProvider;
-import com.datorama.services.GlobalDirectoryService;
 
 public class RepositoryProperties  {
 	public static final String REPOSITORY_NAME = "repository";

@@ -8,13 +8,12 @@
 
 package com.datorama.services;
 
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 
-import ch.qos.logback.classic.Logger;
 
 public class ExitService {
 
-	private final Logger log = (Logger) LoggerFactory.getLogger(ExitService.class);
+	private static final Logger log = Logger.getLogger(ExitService.class);
 	private static ExitService exitService;
 
 

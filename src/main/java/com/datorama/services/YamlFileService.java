@@ -8,25 +8,22 @@
 
 package com.datorama.services;
 
-import java.io.*;
-import java.util.Map;
-
+import com.datorama.exceptions.FerretException;
 import org.apache.commons.lang3.ObjectUtils;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.constructor.ConstructorException;
 import org.yaml.snakeyaml.error.MarkedYAMLException;
 import org.yaml.snakeyaml.nodes.Tag;
-
-import com.datorama.exceptions.FerretException;
-
-import ch.qos.logback.classic.Logger;
 import picocli.CommandLine;
 
+import java.io.*;
+import java.util.Map;
+
 public class YamlFileService {
-	private static final Logger log = (Logger) LoggerFactory.getLogger(YamlFileService.class);
+	private static final Logger log = Logger.getLogger(YamlFileService.class);
 
 	public static Object loadYamlAs(File file, Class clz) {
 		try (FileInputStream fileInputStream = new FileInputStream(file)) {

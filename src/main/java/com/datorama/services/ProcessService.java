@@ -8,6 +8,15 @@
 
 package com.datorama.services;
 
+import com.datorama.common.Constants;
+import com.datorama.exceptions.FerretException;
+import com.datorama.models.ProcessResponse;
+import org.apache.commons.lang3.SystemUtils;
+import org.jboss.logging.Logger;
+import org.zeroturnaround.exec.ProcessExecutor;
+import org.zeroturnaround.exec.ProcessResult;
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -16,25 +25,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.commons.lang3.SystemUtils;
-import org.slf4j.LoggerFactory;
-import org.zeroturnaround.exec.ProcessExecutor;
-import org.zeroturnaround.exec.ProcessResult;
-
-import com.datorama.common.Constants;
-import com.datorama.exceptions.FerretException;
-import com.datorama.models.ProcessResponse;
-
-import ch.qos.logback.classic.Logger;
-import picocli.CommandLine;
-
 /**
  * Process command and run it.
  */
 public class ProcessService {
 	private static ProcessService processService;
 	private GlobalDirectoryService globalDirectoryService = GlobalDirectoryService.getInstance();
-	private final Logger log = (Logger) LoggerFactory.getLogger(ProcessService.class);
+	private static final Logger log = Logger.getLogger(ProcessService.class);
 
 	private ProcessService() {
 		//Deny init

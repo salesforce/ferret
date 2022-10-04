@@ -8,6 +8,13 @@
 
 package com.datorama.services;
 
+import com.datorama.common.Constants;
+import com.datorama.exceptions.FerretException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
+import org.jboss.logging.Logger;
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,18 +22,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 
-import org.apache.commons.lang3.SystemUtils;
-import org.slf4j.LoggerFactory;
-
-import com.datorama.common.Constants;
-import com.datorama.exceptions.FerretException;
-
-import ch.qos.logback.classic.Logger;
-import io.micronaut.core.util.StringUtils;
-import picocli.CommandLine;
-
 public class FileService {
-	private static final Logger log = (Logger) LoggerFactory.getLogger(FileService.class);
+	private static final Logger log = Logger.getLogger(FileService.class);
 
 	public static Path getCurrentDirectory(String newDirectory, Path currentDirectory) {
 		//		log.debug("new directory: " + newDirectory + " current directory: " + currentDirectory.toString());

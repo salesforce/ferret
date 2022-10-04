@@ -8,13 +8,12 @@
 
 package com.datorama.commands;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.datorama.common.EmojiEnum;
 import com.datorama.exceptions.FerretException;
 import com.datorama.services.ExitService;
 import com.datorama.services.FailureService;
 import com.datorama.services.SummaryService;
+import org.apache.commons.lang3.StringUtils;
 
 public interface FerretErrorHandler {
 	default void ferretRun(Runnable runnable) {

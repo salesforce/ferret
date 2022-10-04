@@ -8,23 +8,20 @@
 
 package com.datorama.services;
 
-import java.nio.file.Path;
-import java.util.Optional;
-
-import org.apache.commons.lang3.NotImplementedException;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
 import com.datorama.exceptions.FerretException;
 import com.datorama.models.Input;
 import com.datorama.services.interfaces.SpecialProperty;
-
-import ch.qos.logback.classic.Logger;
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
 import picocli.CommandLine;
 
+import java.nio.file.Path;
+import java.util.Optional;
+
 public class InputPropertyService implements SpecialProperty {
-	private static final Logger log = (Logger) LoggerFactory.getLogger(InputPropertyService.class);
+	private static final Logger log = Logger.getLogger(InputPropertyService.class);
 	private static InputPropertyService inputPropertyService;
 	private final ProcessService processService = ProcessService.getInstance();
 	private final RemoteService remoteService = RemoteService.getInstance();

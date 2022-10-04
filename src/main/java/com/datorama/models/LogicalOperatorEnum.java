@@ -8,18 +8,17 @@
 
 package com.datorama.models;
 
+import com.datorama.exceptions.FerretException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import picocli.CommandLine;
+
 import java.util.Arrays;
 import java.util.Optional;
 
-import com.datorama.exceptions.FerretException;
-
-import io.micronaut.core.annotation.Introspected;
-import picocli.CommandLine;
-
-@Introspected
+@RegisterForReflection
 public enum LogicalOperatorEnum {
 	AND("and"),OR("or");
-	private final String value;
+	 final String value;
 
 	LogicalOperatorEnum(String value) {
 		this.value = value;

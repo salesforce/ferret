@@ -8,11 +8,12 @@
 
 package com.datorama.services.pipelines;
 
+
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 import java.nio.file.Path;
 
-import io.micronaut.core.annotation.Introspected;
-
-@Introspected
+@RegisterForReflection
 public class PipelineProvider {
 	private Path path;
 	private String keyPrefix;

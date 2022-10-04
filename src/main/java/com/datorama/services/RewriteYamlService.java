@@ -8,21 +8,18 @@
 
 package com.datorama.services;
 
+import com.datorama.exceptions.FerretException;
+import com.datorama.files.FerretYamlFile;
+import com.datorama.services.properties.ManagerPropertiesService;
+import org.jboss.logging.Logger;
+
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.LoggerFactory;
-
-import com.datorama.exceptions.FerretException;
-import com.datorama.files.FerretYamlFile;
-import com.datorama.services.properties.ManagerPropertiesService;
-
-import ch.qos.logback.classic.Logger;
-
 public class RewriteYamlService {
 	private static RewriteYamlService rewriteYamlService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(RewriteYamlService.class);
+	private static final Logger log = Logger.getLogger(RewriteYamlService.class);
 	ManagerPropertiesService managerPropertiesService = ManagerPropertiesService.getInstance();
 	FindKeysService findKeysService = FindKeysService.getInstance();
 	ReplaceKeysService replaceKeysService = ReplaceKeysService.getInstance();

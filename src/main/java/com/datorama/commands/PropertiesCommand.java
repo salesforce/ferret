@@ -8,15 +8,14 @@
 
 package com.datorama.commands;
 
-import java.util.Properties;
-
 import com.datorama.services.GitRepositoryService;
 import com.datorama.services.GlobalDirectoryService;
 import com.datorama.services.OutputService;
 import com.datorama.services.properties.DirectoryProperties;
 import com.datorama.services.properties.directory.UserPropertiesService;
-
 import picocli.CommandLine;
+
+import java.util.Properties;
 
 @CommandLine.Command(name = "properties", description = "information about properties from common repository that was configured by you.", subcommands = { CommandLine.HelpCommand.class })
 public class PropertiesCommand implements Runnable, FerretErrorHandler {

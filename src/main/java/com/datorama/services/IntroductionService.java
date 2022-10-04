@@ -8,17 +8,15 @@
 
 package com.datorama.services;
 
+import com.datorama.models.Introduction;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 
-import com.datorama.models.Introduction;
-
-import ch.qos.logback.classic.Logger;
 
 public class IntroductionService {
 	private static IntroductionService introductionService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(IntroductionService.class);
+	private static final Logger log = Logger.getLogger(IntroductionService.class);
 	OutputService outputService = OutputService.getInstance();
 	private boolean calledOnce;
 

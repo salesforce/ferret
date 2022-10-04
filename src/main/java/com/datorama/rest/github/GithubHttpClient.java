@@ -8,6 +8,10 @@
 
 package com.datorama.rest.github;
 
+import com.datorama.models.github.RepositoryFile;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jboss.logging.Logger;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -20,16 +24,9 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.LoggerFactory;
-
-import com.datorama.models.github.RepositoryFile;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import ch.qos.logback.classic.Logger;
-
 public class GithubHttpClient {
 	private static final String GITHUB_URL = "https://api.github.com/";
-	private final Logger log = (Logger) LoggerFactory.getLogger(GithubHttpClient.class);
+	private static final Logger log = Logger.getLogger(GithubHttpClient.class);
 	private final String username;
 	private final String token;
 	private final ObjectMapper objectMapper;
@@ -54,7 +51,7 @@ public class GithubHttpClient {
 			return Optional.of(objectMapper.readValue(inputStream
 					, objectMapper.getTypeFactory().constructCollectionType(List.class, RepositoryFile.class)));
 		} catch (IOException e) {
-			log.warn("Failed IO/URI.", e.getMessage());
+			log.warn("Failed IO/URI.", e);
 		} finally {
 			con.disconnect();
 		}
@@ -77,7 +74,7 @@ public class GithubHttpClient {
 			Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			return true;
 		} catch (IOException e) {
-			log.warn("Failed IO/URI.", e.getMessage());
+			log.warn("Failed IO/URI.", e);
 		}
 		return false;
 	}

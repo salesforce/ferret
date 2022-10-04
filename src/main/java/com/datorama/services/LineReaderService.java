@@ -8,22 +8,19 @@
 
 package com.datorama.services;
 
+import com.datorama.common.Constants;
+import com.datorama.exceptions.FerretException;
+import org.jboss.logging.Logger;
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.LoggerFactory;
-
-import com.datorama.common.Constants;
-import com.datorama.exceptions.FerretException;
-
-import ch.qos.logback.classic.Logger;
-import picocli.CommandLine;
-
 public class LineReaderService {
-	private static final Logger log = (Logger) LoggerFactory.getLogger(LineReaderService.class);
+	private static final Logger log = Logger.getLogger(LineReaderService.class);
 
 	/**
 	 * find all indexes of a specific charSequence in a line.

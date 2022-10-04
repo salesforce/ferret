@@ -8,11 +8,11 @@
 
 package com.datorama.models;
 
-import io.micronaut.core.annotation.Introspected;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
-@Introspected
+@RegisterForReflection
 public class Introduction {
-	private String message;
+	 String message;
 
 	public String getMessage() {
 		return message;

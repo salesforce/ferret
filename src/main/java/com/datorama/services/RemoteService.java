@@ -8,27 +8,24 @@
 
 package com.datorama.services;
 
+import com.datorama.exceptions.FerretException;
+import com.datorama.models.CredentialsProvider;
+import com.datorama.models.RemoteConfig;
+import com.datorama.models.github.RepositoryFile;
+import com.datorama.rest.github.GithubHttpClient;
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
-import com.datorama.exceptions.FerretException;
-import com.datorama.models.CredentialsProvider;
-import com.datorama.models.RemoteConfig;
-import com.datorama.models.github.RepositoryFile;
-import com.datorama.rest.github.GithubHttpClient;
-
-import ch.qos.logback.classic.Logger;
-import picocli.CommandLine;
-
 public class RemoteService {
 	private static RemoteService remoteService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(RemoteService.class);
+	private static final Logger log = Logger.getLogger(RemoteService.class);
 	private final CredentialsService credentialsService = CredentialsService.getInstance();
 	private final GlobalDirectoryService globalDirectoryService = GlobalDirectoryService.getInstance();
 	private GithubHttpClient githubHttpClient;

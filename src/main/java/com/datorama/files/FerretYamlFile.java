@@ -8,17 +8,15 @@
 
 package com.datorama.files;
 
+import com.datorama.models.*;
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.ObjectUtils;
-
-import com.datorama.models.*;
-
-import io.micronaut.core.annotation.Introspected;
-
-@Introspected
+@RegisterForReflection
 public class FerretYamlFile {
 	private Introduction introduction;
 	private List<YamlProperties> properties;

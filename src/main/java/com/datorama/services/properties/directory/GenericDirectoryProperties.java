@@ -8,11 +8,11 @@
 
 package com.datorama.services.properties.directory;
 
+import com.datorama.services.interfaces.PropertiesDirectory;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Properties;
-
-import com.datorama.services.interfaces.PropertiesDirectory;
 
 public class GenericDirectoryProperties implements PropertiesDirectory {
 	private String fileName;

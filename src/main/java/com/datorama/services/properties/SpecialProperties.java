@@ -8,12 +8,12 @@
 
 package com.datorama.services.properties;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.datorama.services.interfaces.SpecialProperty;
 import com.datorama.services.properties.special.GitRootProperty;
 import com.datorama.services.properties.special.ScriptDirectoryPathProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpecialProperties {
 	private static SpecialProperties specialProperties;

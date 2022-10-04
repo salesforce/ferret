@@ -8,16 +8,15 @@
 
 package com.datorama.services.properties.special;
 
+import com.datorama.exceptions.FerretException;
+import com.datorama.services.ProcessService;
+import com.datorama.services.interfaces.SpecialProperty;
+import picocli.CommandLine;
+
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
-
-import com.datorama.exceptions.FerretException;
-import com.datorama.services.ProcessService;
-import com.datorama.services.interfaces.SpecialProperty;
-
-import picocli.CommandLine;
 
 public class GitRootProperty implements SpecialProperty {
 	private static final String GIT_ROOT_COMMAND = "git rev-parse --show-toplevel";

@@ -8,11 +8,11 @@
 
 package com.datorama.services.properties;
 
+import com.datorama.common.Constants;
+
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Properties;
-
-import com.datorama.common.Constants;
 
 public class CredentialsProperties {
 	private static String getFileName() {

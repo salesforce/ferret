@@ -8,13 +8,13 @@
 
 package com.datorama.models;
 
-import io.micronaut.core.annotation.Introspected;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
-@Introspected
+@RegisterForReflection
 public class Command {
-	private String directory;
-	private String command;
-	private Apply apply;
+	String directory;
+	String command;
+	Apply apply;
 
 	public Apply getApply() {
 		return apply;
