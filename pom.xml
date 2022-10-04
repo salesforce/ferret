@@ -194,17 +194,17 @@
                 <executable-suffix>.exe</executable-suffix>
             </properties>
         </profile>
-<!--        <profile>-->
-<!--            <id>dist-mac</id>-->
-<!--            <activation>-->
-<!--                <os>-->
-<!--                    <family>mac</family>-->
-<!--                </os>-->
-<!--            </activation>-->
-<!--            <properties>-->
-<!--                <executable-suffix></executable-suffix>-->
-<!--            </properties>-->
-<!--        </profile>-->
+        <!--        <profile>-->
+        <!--            <id>dist-mac</id>-->
+        <!--            <activation>-->
+        <!--                <os>-->
+        <!--                    <family>mac</family>-->
+        <!--                </os>-->
+        <!--            </activation>-->
+        <!--            <properties>-->
+        <!--                <executable-suffix></executable-suffix>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
         <profile>
             <id>release</id>
             <build>
@@ -212,7 +212,7 @@
                     <plugin>
                         <groupId>org.jreleaser</groupId>
                         <artifactId>jreleaser-maven-plugin</artifactId>
-                        <version>0.9.1</version>
+                        <version>1.2.0</version>
                         <configuration>
 
                             <jreleaser>
@@ -224,6 +224,7 @@
                                     <docsUrl>https://github.com/salesforce/ferret</docsUrl>
                                     <license>BSD 3-Clause</license>
                                     <authors>Yoav Geva</authors>
+                                    <copyright>Salesforce</copyright>
                                 </project>
                                 <release>
                                     <github>
@@ -231,6 +232,7 @@
                                             <formatted>ALWAYS</formatted>
                                             <preset>conventional-commits</preset>
                                         </changelog>
+                                        <overwrite>true</overwrite>
                                     </github>
                                 </release>
                                 <distributions>
@@ -238,6 +240,14 @@
                                         <type>NATIVE_IMAGE</type>
                                         <brew>
                                             <active>ALWAYS</active>
+                                            <formulaName>${project.artifactId}</formulaName>
+                                            <tap>
+                                                <tagName>${project.artifactId}</tagName>
+                                            </tap>
+
+
+
+
                                         </brew>
                                         <artifacts>
                                             <artifact>
