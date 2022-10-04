@@ -8,19 +8,16 @@
 
 package com.datorama.services;
 
+import com.datorama.exceptions.FerretException;
+import org.jboss.logging.Logger;
+import picocli.CommandLine;
+
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
-import org.slf4j.LoggerFactory;
-
-import com.datorama.exceptions.FerretException;
-
-import ch.qos.logback.classic.Logger;
-import picocli.CommandLine;
-
 public class OutputService {
 	private static OutputService outputService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(OutputService.class);
+	private static final Logger log = Logger.getLogger(OutputService.class);
 	private PrintStream out;
 
 	private OutputService() {

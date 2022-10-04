@@ -8,12 +8,10 @@
 
 package com.datorama.commands;
 
-import com.datorama.common.Artwork;
 import com.datorama.services.GitRepositoryService;
 import com.datorama.services.GlobalDirectoryService;
 import com.datorama.services.OutputService;
 import com.datorama.services.pipelines.PipelinesRepositoryService;
-
 import picocli.CommandLine;
 
 @CommandLine.Command(name = "pipelines", description = "Information about all pipelines from the common repository that was configured by you.", subcommands = {
@@ -23,7 +21,6 @@ public class PipelineCommand implements Runnable, FerretErrorHandler {
 
 	@Override public void run() {
 		ferretRun(() -> {
-			OutputService.getInstance().normal(Artwork.PIPELINE_ARTWORK.getValue());
 			globalDirectoryService.initialize();
 			GitRepositoryService.getInstance();
 			PipelinesRepositoryService pipelinesRepositoryService = PipelinesRepositoryService.getInstance();

@@ -8,18 +8,15 @@
 
 package com.datorama.services.pipelines;
 
+import com.datorama.services.GitHubRepositoryActionsService;
+import org.jboss.logging.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.LoggerFactory;
-
-import com.datorama.services.GitHubRepositoryActionsService;
-
-import ch.qos.logback.classic.Logger;
-
 public class PipelinesRepositoryService {
 	private static PipelinesRepositoryService pipelinesRepositoryService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(PipelinesRepositoryService.class);
+	private static final Logger log = Logger.getLogger(PipelinesRepositoryService.class);
 	private final GitHubRepositoryActionsService gitHubRepositoryActionsService = GitHubRepositoryActionsService.getInstance();
 	private List<PipelineProvider> pipelineProviders;
 

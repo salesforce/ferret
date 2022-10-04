@@ -8,20 +8,19 @@
 
 package com.datorama.models;
 
-import java.util.Collections;
-import java.util.List;
-
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import io.micronaut.core.annotation.Introspected;
+import java.util.Collections;
+import java.util.List;
 
-@Introspected
+@RegisterForReflection
 public class YamlProperties {
-	private String key;
-	private String type;
-	private String description;
-	private List<String> values;
+	String key;
+	String type;
+	String description;
+	List<String> values;
 
 	public String getKey() {
 		return key;

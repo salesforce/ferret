@@ -8,19 +8,17 @@
 
 package com.datorama.services;
 
+import com.datorama.models.OnFailure;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 
-import com.datorama.models.OnFailure;
-
-import ch.qos.logback.classic.Logger;
 
 /**
  * Service to handle failure events received from pipeline.
  */
 public class FailureService {
-	private final Logger log = (Logger) LoggerFactory.getLogger(FailureService.class);
+	private static final Logger log = Logger.getLogger(FailureService.class);
 	private static FailureService failureService;
 	private String message;
 

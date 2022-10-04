@@ -9,21 +9,20 @@
 package com.datorama.models;
 
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
-import io.micronaut.core.annotation.Introspected;
-
-@Introspected
+@RegisterForReflection
 public class When {
-	private List<Condition> conditions;
-	private Condition condition;
-	private String operator;
-	private String timeout;
-	private String retryInterval;
-	private boolean fail;
+	 List<Condition> conditions;
+	 Condition condition;
+	 String operator;
+	 String timeout;
+	 String retryInterval;
+	 boolean fail;
 
 	public boolean isFail() {
 		return fail;

@@ -8,24 +8,21 @@
 
 package com.datorama.services;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Optional;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
 import com.datorama.exceptions.FerretException;
 import com.datorama.models.CredentialsProvider;
 import com.datorama.models.ProcessResponse;
 import com.datorama.models.RepositoryProvider;
-
-import ch.qos.logback.classic.Logger;
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
 import picocli.CommandLine;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 
 public class GitHubRepositoryActionsService {
 	private static GitHubRepositoryActionsService gitActionsService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(GitHubRepositoryActionsService.class);
+	private static final Logger log = Logger.getLogger(GitHubRepositoryActionsService.class);
 	private final ProcessService processService = ProcessService.getInstance();
 	private final GlobalDirectoryService globalDirectoryService = GlobalDirectoryService.getInstance();
 

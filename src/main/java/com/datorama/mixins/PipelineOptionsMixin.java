@@ -8,9 +8,9 @@
 
 package com.datorama.mixins;
 
-import java.io.File;
-
 import picocli.CommandLine;
+
+import java.io.File;
 
 public class PipelineOptionsMixin {
 	@CommandLine.Option(names = { "--file", "-f" }, description = "Yaml file.", paramLabel = "yaml file")

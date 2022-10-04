@@ -8,16 +8,6 @@
 
 package com.datorama.services;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.Optional;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
 import com.datorama.common.Constants;
 import com.datorama.exceptions.FerretException;
 import com.datorama.models.RepositoryProvider;
@@ -27,13 +17,20 @@ import com.datorama.services.properties.DirectoryProperties;
 import com.datorama.services.properties.FilePropertiesService;
 import com.datorama.services.properties.RepositoryProperties;
 import com.datorama.services.properties.directory.GenericDirectoryProperties;
-
-import ch.qos.logback.classic.Logger;
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
 import picocli.CommandLine;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.Optional;
 
 public class GitRepositoryService {
 	private static GitRepositoryService gitRepositoryService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(GitRepositoryService.class);
+	private static final Logger log = Logger.getLogger(GitRepositoryService.class);
 	private final CredentialsService credentialsService = CredentialsService.getInstance();
 	private final GitHubRepositoryActionsService githubActionsService = GitHubRepositoryActionsService.getInstance();
 	private final DirectoryProperties directoryProperties = DirectoryProperties.getInstance();

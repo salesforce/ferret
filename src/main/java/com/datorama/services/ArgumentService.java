@@ -8,29 +8,26 @@
 
 package com.datorama.services;
 
+import com.datorama.exceptions.FerretException;
+import com.datorama.files.FerretYamlFile;
+import com.datorama.models.Apply;
+import com.datorama.models.Argument;
+import com.datorama.services.interfaces.SpecialProperty;
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
+import picocli.CommandLine;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.NotImplementedException;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
-import com.datorama.exceptions.FerretException;
-import com.datorama.files.FerretYamlFile;
-import com.datorama.models.Apply;
-import com.datorama.models.Argument;
-import com.datorama.services.interfaces.SpecialProperty;
-
-import ch.qos.logback.classic.Logger;
-import picocli.CommandLine;
-
 public class ArgumentService implements SpecialProperty {
 	private static ArgumentService argumentService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(ArgumentService.class);
+	private static final Logger log = Logger.getLogger(ArgumentService.class);
 
 	private ArgumentService() {
 		//Deny init

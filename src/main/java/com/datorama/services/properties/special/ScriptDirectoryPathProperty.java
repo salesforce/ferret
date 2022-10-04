@@ -8,11 +8,10 @@
 
 package com.datorama.services.properties.special;
 
-import java.nio.file.Path;
+import com.datorama.services.interfaces.SpecialProperty;
 
 import javax.inject.Singleton;
-
-import com.datorama.services.interfaces.SpecialProperty;
+import java.nio.file.Path;
 
 @Singleton
 public class ScriptDirectoryPathProperty implements SpecialProperty {

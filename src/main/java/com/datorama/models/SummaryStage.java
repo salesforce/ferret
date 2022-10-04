@@ -8,20 +8,19 @@
 
 package com.datorama.models;
 
-import java.time.Duration;
-import java.time.Instant;
-
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import io.micronaut.core.annotation.Introspected;
+import java.time.Duration;
+import java.time.Instant;
 
-@Introspected
+@RegisterForReflection
 public class SummaryStage {
-	private String message;
-	private Instant instantStart;
-	private Duration time;
-	private String stageName;
+	 String message;
+	 Instant instantStart;
+	 Duration time;
+	 String stageName;
 
 	public Duration getTime() {
 		return time;

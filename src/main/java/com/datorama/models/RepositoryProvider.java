@@ -8,13 +8,14 @@
 
 package com.datorama.models;
 
-import io.micronaut.core.annotation.Introspected;
 
-@Introspected
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class RepositoryProvider {
-	private String owner;
-	private String repository;
-	private String branch;
+	 String owner;
+	 String repository;
+	 String branch;
 
 	public String getOwner() {
 		return owner;

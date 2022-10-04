@@ -8,13 +8,6 @@
 
 package com.datorama.commands;
 
-import java.io.File;
-import java.util.Map;
-import java.util.Optional;
-
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import com.datorama.exceptions.FerretException;
 import com.datorama.models.LifeCycleEnum;
 import com.datorama.services.GitRepositoryService;
@@ -22,8 +15,13 @@ import com.datorama.services.GlobalDirectoryService;
 import com.datorama.services.LifeCycleService;
 import com.datorama.services.pipelines.PipelineProvider;
 import com.datorama.services.pipelines.PipelinesRepositoryService;
-
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import picocli.CommandLine;
+
+import java.io.File;
+import java.util.Map;
+import java.util.Optional;
 
 public class LifeCycleCommand implements FerretErrorHandler {
 	private final GlobalDirectoryService globalDirectoryService = GlobalDirectoryService.getInstance();

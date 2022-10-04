@@ -8,14 +8,15 @@
 
 package com.datorama.models;
 
+
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 import java.util.Optional;
 
-import io.micronaut.core.annotation.Introspected;
-
-@Introspected
+@RegisterForReflection
 public class ProcessResponse {
-	private int exitCode;
-	private Optional<String> output;
+	 int exitCode;
+	 Optional<String> output;
 
 	public int getExitCode() {
 		return exitCode;

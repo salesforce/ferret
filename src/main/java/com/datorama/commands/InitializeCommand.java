@@ -10,7 +10,6 @@ package com.datorama.commands;
 
 import com.datorama.services.GlobalDirectoryService;
 import com.datorama.services.OutputService;
-
 import picocli.CommandLine;
 
 @CommandLine.Command(name = "init", description = "Initialize default ferret configuration.", subcommands = { CommandLine.HelpCommand.class })

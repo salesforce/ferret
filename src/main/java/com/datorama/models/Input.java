@@ -8,15 +8,15 @@
 
 package com.datorama.models;
 
-import io.micronaut.core.annotation.Introspected;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
-@Introspected
+@RegisterForReflection
 public class Input {
-	private String key;
-	private String request;
-	private String defaultValue;
-	private String command;
-	private RemoteConfig remote;
+	 String key;
+	 String request;
+	 String defaultValue;
+	 String command;
+	 RemoteConfig remote;
 
 	public RemoteConfig getRemote() {
 		return remote;

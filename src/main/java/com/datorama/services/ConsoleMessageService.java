@@ -8,14 +8,13 @@
 
 package com.datorama.services;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.datorama.models.Input;
+import com.datorama.models.YamlProperties;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.datorama.models.Input;
-import com.datorama.models.YamlProperties;
+import java.util.List;
+import java.util.Optional;
 
 public class ConsoleMessageService {
 	public static void sendInputRequestMessage(Input input) {

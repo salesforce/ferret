@@ -8,23 +8,22 @@
 
 package com.datorama.models;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.ObjectUtils;
-
-import io.micronaut.core.annotation.Introspected;
-
-@Introspected
+@RegisterForReflection
 public class StageAttributes {
-	private String description;
-	private String directory;
-	private List<Command> setup;
-	private List<Command> teardown;
-	private List<Input> inputs;
-	private When when;
-	private OnFailure onFailure;
-	private Summary summary;
+	 String description;
+	 String directory;
+	 List<Command> setup;
+	 List<Command> teardown;
+	 List<Input> inputs;
+	 When when;
+	 OnFailure onFailure;
+	 Summary summary;
 
 	public Summary getSummary() {
 		return summary;

@@ -8,15 +8,13 @@
 
 package com.datorama.commands;
 
-import java.util.Map;
-import java.util.Properties;
-
-import org.apache.commons.lang3.ObjectUtils;
-
 import com.datorama.services.OutputService;
 import com.datorama.services.properties.directory.UserPropertiesService;
-
+import org.apache.commons.lang3.ObjectUtils;
 import picocli.CommandLine;
+
+import java.util.Map;
+import java.util.Properties;
 
 @CommandLine.Command(name = "user", description = "user properties settings set a property or get current user properties.", subcommands = { CommandLine.HelpCommand.class })
 public class UserCommand implements Runnable, FerretErrorHandler {

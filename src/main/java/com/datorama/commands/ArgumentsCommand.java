@@ -8,12 +8,6 @@
 
 package com.datorama.commands;
 
-import java.nio.file.Files;
-import java.util.Optional;
-
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import com.datorama.exceptions.FerretException;
 import com.datorama.mixins.PipelineOptionsMixin;
 import com.datorama.services.ArgumentService;
@@ -21,8 +15,12 @@ import com.datorama.services.GitRepositoryService;
 import com.datorama.services.GlobalDirectoryService;
 import com.datorama.services.pipelines.PipelineProvider;
 import com.datorama.services.pipelines.PipelinesRepositoryService;
-
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import picocli.CommandLine;
+
+import java.nio.file.Files;
+import java.util.Optional;
 
 @CommandLine.Command(name = "arguments", aliases = { "args" }, description = "shows arguments list of specific pipeline", subcommands = { CommandLine.HelpCommand.class })
 public class ArgumentsCommand implements Runnable, FerretErrorHandler {

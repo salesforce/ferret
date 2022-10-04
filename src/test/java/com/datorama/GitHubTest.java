@@ -30,7 +30,7 @@ public class GitHubTest {
 	@Test
 	public void testRemote() {
 		RemoteConfig remote = new RemoteConfig();
-		remote.setOwner("datorama");
+		remote.setOwner("com/datorama");
 		remote.setRepository("pilot");
 		remote.setBranch("master");
 		remote.setFile("wow.yaml");

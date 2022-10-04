@@ -8,11 +8,11 @@
 
 package com.datorama.services.properties;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.datorama.services.interfaces.PropertiesDirectory;
 import com.datorama.services.properties.directory.UserPropertiesService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DirectoryProperties {
 	private static DirectoryProperties directoryProperties;

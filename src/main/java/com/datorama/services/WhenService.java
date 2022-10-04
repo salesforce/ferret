@@ -8,6 +8,14 @@
 
 package com.datorama.services;
 
+import com.datorama.exceptions.FerretException;
+import com.datorama.models.*;
+import com.datorama.services.when.ExecuteCondition;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
+import picocli.CommandLine;
+
 import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Duration;
@@ -15,22 +23,11 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
-import com.datorama.exceptions.FerretException;
-import com.datorama.models.*;
-import com.datorama.services.when.ExecuteCondition;
-
-import ch.qos.logback.classic.Logger;
-import picocli.CommandLine;
-
 public class WhenService {
 	public static final String DEFAULT_TIMEOUT = "0s";
 	public static final String DEFAULT_RETRY_INTERVAL = "5s";
 	private static WhenService whenService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(WhenService.class);
+	private static final Logger log = Logger.getLogger(WhenService.class);
 	private final ProcessService processService = ProcessService.getInstance();
 
 	private WhenService() {

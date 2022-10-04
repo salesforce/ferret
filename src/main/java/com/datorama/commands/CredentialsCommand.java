@@ -8,18 +8,15 @@
 
 package com.datorama.commands;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
 import com.datorama.services.CredentialsService;
 import com.datorama.services.GlobalDirectoryService;
-
-import ch.qos.logback.classic.Logger;
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
 import picocli.CommandLine;
 
 @CommandLine.Command(name = "credentials",aliases = {"creds"}, description = "Credentials settings for different version control (github) that need authentication.", subcommands = { CommandLine.HelpCommand.class })
 public class CredentialsCommand implements Runnable, FerretErrorHandler{
-	private final Logger log = (Logger) LoggerFactory.getLogger(CredentialsCommand.class);
+	private static final Logger log = Logger.getLogger(CredentialsCommand.class);
 	@CommandLine.Option(names = { "--token", "-t" }, description = "Token for github", defaultValue = "")
 	private String token;
 	@CommandLine.Option(names = { "--username", "-u" }, description = "username for github", defaultValue = "")

@@ -8,16 +8,14 @@
 
 package com.datorama.commands;
 
-import java.util.Optional;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.datorama.exceptions.FerretException;
 import com.datorama.models.RepositoryProvider;
 import com.datorama.services.OutputService;
 import com.datorama.services.properties.RepositoryProperties;
-
+import org.apache.commons.lang3.StringUtils;
 import picocli.CommandLine;
+
+import java.util.Optional;
 
 @CommandLine.Command(name = "repository", aliases = { "repo" }, description = "Settings for repository to get all ferret common pipeline and properties.", subcommands = {
 		CommandLine.HelpCommand.class })

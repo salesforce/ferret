@@ -8,28 +8,25 @@
 
 package com.datorama.services.properties;
 
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import org.codehaus.plexus.util.StringUtils;
-import org.slf4j.LoggerFactory;
-
 import com.datorama.exceptions.FerretException;
 import com.datorama.services.ArgumentService;
 import com.datorama.services.InputPropertyService;
 import com.datorama.services.interfaces.PropertiesDirectory;
 import com.datorama.services.interfaces.SpecialProperty;
 import com.datorama.services.properties.directory.UserPropertiesService;
-
-import ch.qos.logback.classic.Logger;
+import org.codehaus.plexus.util.StringUtils;
+import org.jboss.logging.Logger;
 import picocli.CommandLine;
+
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class ManagerPropertiesService {
 	private static ManagerPropertiesService managerPropertiesService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(ManagerPropertiesService.class);
+	private static final Logger log = Logger.getLogger(ManagerPropertiesService.class);
 	private final InputPropertyService inputPropertyService = InputPropertyService.getInstance();
 	private final SpecialProperties specialProperties = SpecialProperties.getInstance();
 	private final DirectoryProperties directoryProperties = DirectoryProperties.getInstance();

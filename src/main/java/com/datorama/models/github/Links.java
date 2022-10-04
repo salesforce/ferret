@@ -8,14 +8,15 @@
 
 package com.datorama.models.github;
 
-import io.micronaut.core.annotation.Introspected;
 
-@Introspected
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class Links {
 
-	private String self;
-	private String git;
-	private String html;
+	 String self;
+	 String git;
+	 String html;
 
 	public String getSelf() {
 		return self;

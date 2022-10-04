@@ -8,17 +8,16 @@
 
 package com.datorama.models;
 
+import com.datorama.exceptions.FerretException;
+import picocli.CommandLine;
+
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Optional;
 
-import com.datorama.exceptions.FerretException;
-
-import picocli.CommandLine;
-
 public enum TimeUnitEnum {
 	SECONDS("s"),MINUTES("m");
-	private final String value;
+	final String value;
 
 	TimeUnitEnum(String value) {
 		this.value = value;

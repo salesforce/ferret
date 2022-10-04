@@ -8,22 +8,19 @@
 
 package com.datorama.services;
 
+import com.datorama.common.Constants;
+import org.jboss.logging.Logger;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.LoggerFactory;
-
-import com.datorama.common.Constants;
-
-import ch.qos.logback.classic.Logger;
-
 /**
  * Find keys in a file.
  */
 public class FindKeysService {
-	private final Logger log = (Logger) LoggerFactory.getLogger(FindKeysService.class);
+	private static final Logger log = Logger.getLogger(FindKeysService.class);
 	private static FindKeysService findKeysService;
 
 	private FindKeysService() {

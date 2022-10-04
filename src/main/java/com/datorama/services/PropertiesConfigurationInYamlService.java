@@ -8,25 +8,22 @@
 
 package com.datorama.services;
 
+import com.datorama.exceptions.FerretException;
+import com.datorama.models.YamlProperties;
+import com.datorama.services.properties.directory.UserPropertiesService;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
+import picocli.CommandLine;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
-import com.datorama.exceptions.FerretException;
-import com.datorama.models.YamlProperties;
-import com.datorama.services.properties.directory.UserPropertiesService;
-
-import ch.qos.logback.classic.Logger;
-import picocli.CommandLine;
-
 public class PropertiesConfigurationInYamlService {
 	private static PropertiesConfigurationInYamlService propertiesConfigurationInYamlService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(PropertiesConfigurationInYamlService.class);
+	private static final Logger log = Logger.getLogger(PropertiesConfigurationInYamlService.class);
 	private final ProcessService processService = ProcessService.getInstance();
 
 	private PropertiesConfigurationInYamlService() {

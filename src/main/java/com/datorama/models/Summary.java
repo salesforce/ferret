@@ -8,14 +8,15 @@
 
 package com.datorama.models;
 
-import io.micronaut.core.annotation.Introspected;
+
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 /**
  * summary object in yaml
  */
-@Introspected
+@RegisterForReflection
 public class Summary {
-	private String message;
+	 String message;
 
 	public String getMessage() {
 		return message;

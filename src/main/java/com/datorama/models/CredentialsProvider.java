@@ -8,12 +8,12 @@
 
 package com.datorama.models;
 
-import io.micronaut.core.annotation.Introspected;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
-@Introspected
+@RegisterForReflection
 public class CredentialsProvider {
-	private String githubToken;
-	private String githubUsername;
+	 String githubToken;
+	 String githubUsername;
 
 	public String getGithubToken() {
 		return githubToken;

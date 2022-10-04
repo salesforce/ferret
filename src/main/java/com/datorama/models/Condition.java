@@ -8,17 +8,16 @@
 
 package com.datorama.models;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.apache.commons.lang3.StringUtils;
 
-import io.micronaut.core.annotation.Introspected;
-
-@Introspected
+@RegisterForReflection
 public class Condition {
-	private String operator;
-	private String command;
-	private String compareTo;
-	private String requestBoolean;
-	private String customQuestion;
+	 String operator;
+	 String command;
+	 String compareTo;
+	 String requestBoolean;
+	 String customQuestion;
 
 	public String getOperator() {
 		if(StringUtils.isNotEmpty(operator)){

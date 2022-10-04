@@ -8,6 +8,13 @@
 
 package com.datorama.services.properties.directory;
 
+import com.datorama.common.Constants;
+import com.datorama.exceptions.FerretException;
+import com.datorama.services.interfaces.PropertiesDirectory;
+import com.datorama.services.properties.FilePropertiesService;
+import org.jboss.logging.Logger;
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,21 +23,11 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Properties;
 
-import org.slf4j.LoggerFactory;
-
-import com.datorama.common.Constants;
-import com.datorama.exceptions.FerretException;
-import com.datorama.services.interfaces.PropertiesDirectory;
-import com.datorama.services.properties.FilePropertiesService;
-
-import ch.qos.logback.classic.Logger;
-import picocli.CommandLine;
-
 /**
  * Currently not supported will support if there is usage.
  */
 public class LocalPropertiesService implements PropertiesDirectory {
-	private final Logger log = (Logger) LoggerFactory.getLogger(LocalPropertiesService.class);
+	private static final Logger log = Logger.getLogger(LocalPropertiesService.class);
 
 	@Override public String getFileName() {
 		return "local.properties";

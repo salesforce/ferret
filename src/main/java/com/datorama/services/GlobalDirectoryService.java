@@ -8,21 +8,19 @@
 
 package com.datorama.services;
 
+import com.datorama.common.Constants;
+import com.datorama.exceptions.FerretException;
+import com.datorama.services.properties.directory.UserPropertiesService;
+import org.codehaus.plexus.util.FileUtils;
+import org.jboss.logging.Logger;
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.codehaus.plexus.util.FileUtils;
-import org.slf4j.LoggerFactory;
-
-import com.datorama.common.Constants;
-import com.datorama.exceptions.FerretException;
-import com.datorama.services.properties.directory.UserPropertiesService;
-
-import ch.qos.logback.classic.Logger;
-import picocli.CommandLine;
 import static com.datorama.common.Constants.*;
 
 /**
@@ -30,7 +28,7 @@ import static com.datorama.common.Constants.*;
  */
 public class GlobalDirectoryService {
 	private static GlobalDirectoryService globalDirectoryService;
-	private final Logger log = (Logger) LoggerFactory.getLogger(GlobalDirectoryService.class);
+	private static final Logger log = Logger.getLogger(GlobalDirectoryService.class);
 	private final CredentialsService credentialsService = CredentialsService.getInstance();
 
 	private GlobalDirectoryService() {

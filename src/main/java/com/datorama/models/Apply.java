@@ -8,20 +8,19 @@
 
 package com.datorama.models;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.ObjectUtils;
-
-import io.micronaut.core.annotation.Introspected;
-
-@Introspected
+@RegisterForReflection
 public class Apply {
-	private String file;
-	private String stage;
-	private RemoteConfig remote;
-	private String pipeline;
-	private List<Argument> arguments;
+	 String file;
+	 String stage;
+	 RemoteConfig remote;
+	 String pipeline;
+	 List<Argument> arguments;
 
 	public List<Argument> getArguments() {
 		if (ObjectUtils.isEmpty(arguments)) {
