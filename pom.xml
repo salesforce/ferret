@@ -194,17 +194,17 @@
                 <executable-suffix>.exe</executable-suffix>
             </properties>
         </profile>
-<!--        <profile>-->
-<!--            <id>dist-mac</id>-->
-<!--            <activation>-->
-<!--                <os>-->
-<!--                    <family>mac</family>-->
-<!--                </os>-->
-<!--            </activation>-->
-<!--            <properties>-->
-<!--                <executable-suffix></executable-suffix>-->
-<!--            </properties>-->
-<!--        </profile>-->
+        <!--        <profile>-->
+        <!--            <id>dist-mac</id>-->
+        <!--            <activation>-->
+        <!--                <os>-->
+        <!--                    <family>mac</family>-->
+        <!--                </os>-->
+        <!--            </activation>-->
+        <!--            <properties>-->
+        <!--                <executable-suffix></executable-suffix>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
         <profile>
             <id>release</id>
             <build>
@@ -212,7 +212,9 @@
                     <plugin>
                         <groupId>org.jreleaser</groupId>
                         <artifactId>jreleaser-maven-plugin</artifactId>
+
                         <version>1.3.1</version>
+
                         <configuration>
 
                             <jreleaser>
@@ -232,6 +234,7 @@
                                             <formatted>ALWAYS</formatted>
                                             <preset>conventional-commits</preset>
                                         </changelog>
+                                        <overwrite>true</overwrite>
                                     </github>
                                 </release>
                                 <distributions>

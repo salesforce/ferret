@@ -50,7 +50,6 @@ As picocli applications will often require arguments to be passed on the command
 
 
 ## Production
-### compile
-* Compile to native-image ```mvn package -Dpackaging=native-image```
-* ```tar -zcvf ferret-mac-{version}.tar.gz target/ferret```
-* get sha256 ```shasum -a 256 ferret-mac-{version}.tar.gz``` save it for homebrew
+### release to homebrew
+* ./mvnw -Prelease jreleaser:full-release -Djreleaser.select.current.platform 
+* need to enter the homebrew-tap repo and fix the formula file from app.rb to ferret.rb (bug in jreleaser)
