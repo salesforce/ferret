@@ -212,7 +212,7 @@
                     <plugin>
                         <groupId>org.jreleaser</groupId>
                         <artifactId>jreleaser-maven-plugin</artifactId>
-                        <version>0.9.1</version>
+                        <version>1.3.1</version>
                         <configuration>
 
                             <jreleaser>
@@ -224,6 +224,7 @@
                                     <docsUrl>https://github.com/salesforce/ferret</docsUrl>
                                     <license>BSD 3-Clause</license>
                                     <authors>Yoav Geva</authors>
+                                    <copyright>Salesforce</copyright>
                                 </project>
                                 <release>
                                     <github>
@@ -238,6 +239,14 @@
                                         <type>NATIVE_IMAGE</type>
                                         <brew>
                                             <active>ALWAYS</active>
+                                            <formulaName>${project.artifactId}</formulaName>
+                                            <tap>
+                                                <tagName>${project.artifactId}</tagName>
+                                            </tap>
+
+
+
+
                                         </brew>
                                         <artifacts>
                                             <artifact>
@@ -254,7 +263,7 @@
                                             </artifact>
                                             <artifact>
                                                 <path>
-                                                    ${distribution.directory}/${project.artifactId}-{{projectVersion}}-osx-x86_64.zip
+                                                    ${distribution.directory}/${project.artifactId}-{{projectVersion}}-osx-x86_64.tar.gz
                                                 </path>
                                                 <platform>osx-x86_64</platform>
                                             </artifact>
