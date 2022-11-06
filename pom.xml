@@ -212,7 +212,9 @@
                     <plugin>
                         <groupId>org.jreleaser</groupId>
                         <artifactId>jreleaser-maven-plugin</artifactId>
-                        <version>1.2.0</version>
+
+                        <version>1.3.1</version>
+
                         <configuration>
 
                             <jreleaser>
@@ -264,7 +266,7 @@
                                             </artifact>
                                             <artifact>
                                                 <path>
-                                                    ${distribution.directory}/${project.artifactId}-{{projectVersion}}-osx-x86_64.zip
+                                                    ${distribution.directory}/${project.artifactId}-{{projectVersion}}-osx-x86_64.tar.gz
                                                 </path>
                                                 <platform>osx-x86_64</platform>
                                             </artifact>
