@@ -9,7 +9,7 @@ import picocli.CommandLine.Command;
 
 @TopCommand
 @Command(name = "ferret", description = "Ferret - Pipeline for your local environment setup",
-        mixinStandardHelpOptions = true, version = { "Ferret version 1.0.13",
+        mixinStandardHelpOptions = true, version = { "Ferret version 2.0.1",
         "Picocli " + CommandLine.VERSION,
         "JVM: ${java.version} (${java.vendor} ${java.vm.name} ${java.vm.version})",
         "OS: ${os.name} ${os.version} ${os.arch}" },
