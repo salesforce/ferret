@@ -13,34 +13,24 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
+
+@ApplicationScoped
 public class IntroductionService {
-	private static IntroductionService introductionService;
-	private static final Logger log = Logger.getLogger(IntroductionService.class);
-	OutputService outputService = OutputService.getInstance();
-	private boolean calledOnce;
+    static final Logger log = Logger.getLogger(IntroductionService.class);
+    @Inject
+    OutputService outputService;
+    boolean calledOnce;
 
-	private IntroductionService() {
-		//Deny init
-	}
 
-	public static IntroductionService getInstance() {
-		if (introductionService == null) {
-			synchronized (IntroductionService.class) {
-				if (introductionService == null) {
-					introductionService = new IntroductionService();
-				}
-			}
-		}
-		return introductionService;
-	}
-
-	public void printIntroduction(Introduction introduction) {
-		if(!calledOnce){
-			if (ObjectUtils.isNotEmpty(introduction) && StringUtils.isNotEmpty(introduction.getMessage())) {
-				outputService.normal(introduction.getMessage());
-			}
-			calledOnce = true;
-		}
-	}
+    public void printIntroduction(Introduction introduction) {
+        if (!calledOnce) {
+            if (ObjectUtils.isNotEmpty(introduction) && StringUtils.isNotEmpty(introduction.getMessage())) {
+                outputService.normal(introduction.getMessage());
+            }
+            calledOnce = true;
+        }
+    }
 }

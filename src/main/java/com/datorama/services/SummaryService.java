@@ -15,6 +15,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -22,96 +25,87 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@ApplicationScoped
 public class SummaryService {
-	private static SummaryService summaryService;
-	private static final Logger log = Logger.getLogger(SummaryService.class);
-	private List<SummaryStage> summaryStageList;
-	private Instant startTime;
+    static final Logger log = Logger.getLogger(SummaryService.class);
+    List<SummaryStage> summaryStageList;
+    Instant startTime;
 
-	private SummaryService() {
-		//Deny init
-	}
-
-	public static SummaryService getInstance() {
-		if (summaryService == null) {
-			synchronized (SummaryService.class) {
-				if (summaryService == null) {
-					summaryService = new SummaryService();
-					summaryService.initialize();
-				}
-			}
-		}
-		return summaryService;
-	}
-
-	private void initialize() {
-		summaryStageList = new CopyOnWriteArrayList<>();
-		setStartTime();
-	}
-
-	public void setStartTime() {
-		if (ObjectUtils.isEmpty(startTime)) {
-			this.startTime = Clock.systemDefaultZone().instant();
-		}
-	}
-
-	private Instant getStartTime() {
-		return startTime;
-	}
+    @Inject
+    ReplaceKeysService replaceKeysService;
+    @Inject
+    OutputService outputService;
 
 
-	public SummaryStage startOfStage(Summary summary, String stageName, Map<String, String> inputMap) {
-		SummaryStage summaryStage = new SummaryStage();
-		summaryStage.setStageName(stageName);
-		summaryStage.setInstantStart(Clock.systemDefaultZone().instant());
-		if (ObjectUtils.isEmpty(summary) || StringUtils.isEmpty(summary.getMessage())) {
-			summaryStage.setMessage("");
-		} else {
-			String message = ReplaceKeysService.getInstance().replaceKeysInLine(summary.getMessage(), inputMap);
-			summaryStage.setMessage(message);
-		}
-		summaryStageList.add(summaryStage);
-		return summaryStage;
-	}
+    @PostConstruct
+    void initialize() {
+        summaryStageList = new CopyOnWriteArrayList<>();
+        setStartTime();
+    }
 
-	public void endOfStage(SummaryStage summaryStage) {
-		Instant endTime = Clock.systemDefaultZone().instant();
-		int size = summaryStageList.size();
-		for (int i = size - 1; i >= 0; i--) {
-			SummaryStage stage = summaryStageList.get(i);
-			if (stage.equals(summaryStage)) {
-				stage.setTime(Duration.between(stage.getInstantStart(), endTime));
-				break;
-			}
-		}
-	}
+    public void setStartTime() {
+        if (ObjectUtils.isEmpty(startTime)) {
+            this.startTime = Clock.systemDefaultZone().instant();
+        }
+    }
 
-	public void summaryMessage(boolean isPassed) {
-		StringBuilder stringBuilder = new StringBuilder();
-		summaryStageList.forEach(summaryStage -> {
-			if (isPassed || ObjectUtils.isNotEmpty(summaryStage.getTime())) {
-				stringBuilder.append(EmojiEnum.GREEN_CHECK_MARK.getValue())
-						.append(" ");
-				stringBuilder.append(summaryStage.getTime().getSeconds()).append("s ");
-			} else {
-				stringBuilder.append(EmojiEnum.RED_X_MARK.getValue())
-						.append(" ");
-			}
-			stringBuilder.append(summaryStage.getStageName()).append(System.lineSeparator());
+    private Instant getStartTime() {
+        return startTime;
+    }
 
-		});
-		if (isPassed && !summaryStageList.isEmpty()) {
-			stringBuilder.append(System.lineSeparator());
-			stringBuilder.append(EmojiEnum.NOTEBOOK.getValue()).append(EmojiEnum.NOTEBOOK.getValue()).append(EmojiEnum.NOTEBOOK.getValue());
-			stringBuilder.append(" Summary additional information ");
-			stringBuilder.append(EmojiEnum.NOTEBOOK.getValue()).append(EmojiEnum.NOTEBOOK.getValue()).append(EmojiEnum.NOTEBOOK.getValue());
-			stringBuilder.append(System.lineSeparator());
-			summaryStageList.forEach(summaryStage -> {
-				if(StringUtils.isNotEmpty(summaryStage.getMessage())){
-					stringBuilder.append(summaryStage.getStageName()).append(": ").append(summaryStage.getMessage()).append(System.lineSeparator());
-				}
-			});
-		}
-		OutputService.getInstance().normal(stringBuilder.toString());
-	}
+
+    public SummaryStage startOfStage(Summary summary, String stageName, Map<String, String> inputMap) {
+        SummaryStage summaryStage = new SummaryStage();
+        summaryStage.setStageName(stageName);
+        summaryStage.setInstantStart(Clock.systemDefaultZone().instant());
+        if (ObjectUtils.isEmpty(summary) || StringUtils.isEmpty(summary.getMessage())) {
+            summaryStage.setMessage("");
+        } else {
+            String message = replaceKeysService.replaceKeysInLine(summary.getMessage(), inputMap);
+            summaryStage.setMessage(message);
+        }
+        summaryStageList.add(summaryStage);
+        return summaryStage;
+    }
+
+    public void endOfStage(SummaryStage summaryStage) {
+        Instant endTime = Clock.systemDefaultZone().instant();
+        int size = summaryStageList.size();
+        for (int i = size - 1; i >= 0; i--) {
+            SummaryStage stage = summaryStageList.get(i);
+            if (stage.equals(summaryStage)) {
+                stage.setTime(Duration.between(stage.getInstantStart(), endTime));
+                break;
+            }
+        }
+    }
+
+    public void summaryMessage(boolean isPassed) {
+        StringBuilder stringBuilder = new StringBuilder();
+        summaryStageList.forEach(summaryStage -> {
+            if (isPassed || ObjectUtils.isNotEmpty(summaryStage.getTime())) {
+                stringBuilder.append(EmojiEnum.GREEN_CHECK_MARK.getValue())
+                        .append(" ");
+                stringBuilder.append(summaryStage.getTime().getSeconds()).append("s ");
+            } else {
+                stringBuilder.append(EmojiEnum.RED_X_MARK.getValue())
+                        .append(" ");
+            }
+            stringBuilder.append(summaryStage.getStageName()).append(System.lineSeparator());
+
+        });
+        if (isPassed && !summaryStageList.isEmpty()) {
+            stringBuilder.append(System.lineSeparator());
+            stringBuilder.append(EmojiEnum.NOTEBOOK.getValue()).append(EmojiEnum.NOTEBOOK.getValue()).append(EmojiEnum.NOTEBOOK.getValue());
+            stringBuilder.append(" Summary additional information ");
+            stringBuilder.append(EmojiEnum.NOTEBOOK.getValue()).append(EmojiEnum.NOTEBOOK.getValue()).append(EmojiEnum.NOTEBOOK.getValue());
+            stringBuilder.append(System.lineSeparator());
+            summaryStageList.forEach(summaryStage -> {
+                if (StringUtils.isNotEmpty(summaryStage.getMessage())) {
+                    stringBuilder.append(summaryStage.getStageName()).append(": ").append(summaryStage.getMessage()).append(System.lineSeparator());
+                }
+            });
+        }
+        outputService.normal(stringBuilder.toString());
+    }
 }

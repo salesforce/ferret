@@ -17,71 +17,66 @@ import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 import picocli.CommandLine;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.nio.file.Path;
 import java.util.Optional;
 
+@ApplicationScoped
 public class InputPropertyService implements SpecialProperty {
-	private static final Logger log = Logger.getLogger(InputPropertyService.class);
-	private static InputPropertyService inputPropertyService;
-	private final ProcessService processService = ProcessService.getInstance();
-	private final RemoteService remoteService = RemoteService.getInstance();
+    static final Logger log = Logger.getLogger(InputPropertyService.class);
 
-	private InputPropertyService() {
-		//Deny init
-	}
+    @Inject
+    ProcessService processService;
+    @Inject
+    RemoteService remoteService;
 
-	public static InputPropertyService getInstance() {
-		if (inputPropertyService == null) {
-			synchronized (InputPropertyService.class) {
-				if (inputPropertyService == null) {
-					inputPropertyService = new InputPropertyService();
-				}
-			}
-		}
-		return inputPropertyService;
-	}
+    @Inject
+    ConsoleMessageService consoleMessageService;
 
-	public String getValueFromInput(Input input, Path currentDirectory) {
-		if (StringUtils.isNotEmpty(input.getRequest()) && StringUtils.isNotEmpty(input.getCommand()) && ObjectUtils.isNotEmpty(input.getRemote())) {
-			throw new FerretException("Failed because you can run only one type of input.", CommandLine.ExitCode.USAGE);
-		}
-		if (StringUtils.isNotEmpty(input.getRequest())) {
-			return valueFromRequest(input);
-		}
-		if (StringUtils.isNotEmpty(input.getCommand())) {
-			return valueFromRun(input, currentDirectory);
-		}
-		if (ObjectUtils.isNotEmpty(input.getRemote())) {
-			return remoteService.remoteFile(input.getRemote()).getAbsolutePath();
-		}
-		return "";
-	}
+    public String getValueFromInput(Input input, Path currentDirectory) {
+        if (StringUtils.isNotEmpty(input.getRequest()) && StringUtils.isNotEmpty(input.getCommand()) && ObjectUtils.isNotEmpty(input.getRemote())) {
+            throw new FerretException("Failed because you can run only one type of input.", CommandLine.ExitCode.USAGE);
+        }
+        if (StringUtils.isNotEmpty(input.getRequest())) {
+            return valueFromRequest(input);
+        }
+        if (StringUtils.isNotEmpty(input.getCommand())) {
+            return valueFromRun(input, currentDirectory);
+        }
+        if (ObjectUtils.isNotEmpty(input.getRemote())) {
+            return remoteService.remoteFile(input.getRemote()).getAbsolutePath();
+        }
+        return "";
+    }
 
-	private String valueFromRun(Input input, Path currentDirectory) {
-		Optional<String> resultOptional = processService.runCommandWithResult(input.getCommand(), currentDirectory);
-		if (resultOptional.isPresent()) {
-			return resultOptional.get().trim();
-		} else {
-			log.warn("Was not suppose to be able to reach here.");
-			return "";
-		}
-	}
+    private String valueFromRun(Input input, Path currentDirectory) {
+        Optional<String> resultOptional = processService.runCommandWithResult(input.getCommand(), currentDirectory);
+        if (resultOptional.isPresent()) {
+            return resultOptional.get().trim();
+        } else {
+            log.warn("Was not suppose to be able to reach here.");
+            return "";
+        }
+    }
 
-	private String valueFromRequest(Input input) {
-		ConsoleMessageService.sendInputRequestMessage(input);
-		String result = ConsoleInputService.getUserInput();
-		if (result.isEmpty()) {
-			return input.getDefaultValue();
-		} else {
-			return result;
-		}
-	}
+    private String valueFromRequest(Input input) {
+        consoleMessageService.sendInputRequestMessage(input);
+        String result = ConsoleInputService.getUserInput();
+        if (result.isEmpty()) {
+            return input.getDefaultValue();
+        } else {
+            return result;
+        }
+    }
 
-	@Override public String getPropertyKey() {
-		return "input.";
-	}
+    @Override
+    public String getPropertyKey() {
+        return "input.";
+    }
 
-	@Override public String getPropertyValue(Path currentPath) {
-		throw new NotImplementedException();
-	}
+    @Override
+    public String getPropertyValue(Path currentPath) {
+        throw new NotImplementedException();
+    }
 }

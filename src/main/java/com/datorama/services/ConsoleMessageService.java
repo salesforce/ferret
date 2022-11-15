@@ -13,19 +13,26 @@ import com.datorama.models.YamlProperties;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
+@ApplicationScoped
 public class ConsoleMessageService {
-	public static void sendInputRequestMessage(Input input) {
+
+	@Inject
+	OutputService outputService;
+	
+	public void sendInputRequestMessage(Input input) {
 		final StringBuilder sb = new StringBuilder();
-		sb.append(OutputService.getInstance().boldPart("Input required ")).append("press enter to use default value.").append(System.lineSeparator());
+		sb.append(outputService.boldPart("Input required ")).append("press enter to use default value.").append(System.lineSeparator());
 		sb.append("Description: ").append(input.getRequest()).append(". ");
 		sb.append("default value: ").append(input.getDefaultValue());
-		OutputService.getInstance().normal(sb.toString());
+		outputService.normal(sb.toString());
 	}
 
-	public static String sendYamlPropertyInteractionMessage(YamlProperties yamlProperties) {
+	public String sendYamlPropertyInteractionMessage(YamlProperties yamlProperties) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("Property ").append(yamlProperties.getType()).append(yamlProperties.getKey()).append(" need value.")
 				.append(System.lineSeparator());
@@ -34,23 +41,23 @@ public class ConsoleMessageService {
 			availableValues(yamlProperties.getValues(), sb);
 		}
 		sb.append("Waiting for user input.");
-		OutputService.getInstance().normal(sb.toString());
+		outputService.normal(sb.toString());
 		String result = ConsoleInputService.getUserInput();
 		if (StringUtils.isEmpty(result)) {
-			OutputService.getInstance().error("Cannot be empty input.");
+			outputService.error("Cannot be empty input.");
 			return sendYamlPropertyInteractionMessage(yamlProperties);
 		}
 		if (ObjectUtils.isNotEmpty(yamlProperties.getValues())) {
 			Optional<String> valueOptional = yamlProperties.getValues().stream().filter(value -> result.equals(value)).findFirst();
 			if (!valueOptional.isPresent()) {
-				OutputService.getInstance().error("Value must be one of the available values.");
+				outputService.error("Value must be one of the available values.");
 				return sendYamlPropertyInteractionMessage(yamlProperties);
 			}
 		}
 		return result;
 	}
 
-	private static void availableValues(List<String> values, StringBuilder sb) {
+	private  void availableValues(List<String> values, StringBuilder sb) {
 		sb.append("Those are the available values (must be one of them): ");
 		sb.append("[");
 		for (int i = 0; i < values.size(); i++) {
@@ -68,10 +75,10 @@ public class ConsoleMessageService {
 	 * @param valueToCheck
 	 * @return
 	 */
-	public static boolean sendYesOrNoQuestion(String valueToCheck) {
+	public  boolean sendYesOrNoQuestion(String valueToCheck) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("Are you sure ").append(valueToCheck).append(" is the correct value? ").append(" answer yes/no.");
-		OutputService.getInstance().normal(sb.toString());
+		outputService.normal(sb.toString());
 		String result = ConsoleInputService.getUserInput();
 		Optional<Boolean> resultOptional = checkResultIsYesOrNo(result);
 		if (!resultOptional.isPresent()) {
@@ -80,7 +87,7 @@ public class ConsoleMessageService {
 		return resultOptional.get();
 	}
 
-	public static boolean sendYesOrNoQuestionAfterWhenRequest(String valueToPrint,String customQuestion) {
+	public  boolean sendYesOrNoQuestionAfterWhenRequest(String valueToPrint,String customQuestion) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(valueToPrint).append(System.lineSeparator());
 		if(StringUtils.isEmpty(customQuestion)){
@@ -88,7 +95,7 @@ public class ConsoleMessageService {
 		} else {
 			sb.append(customQuestion).append(" answer y/n.");
 		}
-		OutputService.getInstance().normal(sb.toString());
+		outputService.normal(sb.toString());
 		String result = ConsoleInputService.getUserInput();
 		Optional<Boolean> resultOptional = checkResultIsYesOrNo(result);
 		if (!resultOptional.isPresent()) {
@@ -103,7 +110,7 @@ public class ConsoleMessageService {
 	 * @param value
 	 * @return
 	 */
-	private static Optional<Boolean> checkResultIsYesOrNo(String value) {
+	private  Optional<Boolean> checkResultIsYesOrNo(String value) {
 		if (StringUtils.isEmpty(value)) {
 			return Optional.empty();
 		}

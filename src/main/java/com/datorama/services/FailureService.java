@@ -13,43 +13,30 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+
 
 /**
  * Service to handle failure events received from pipeline.
  */
+@ApplicationScoped
 public class FailureService {
-	private static final Logger log = Logger.getLogger(FailureService.class);
-	private static FailureService failureService;
-	private String message;
+    private static final Logger log = Logger.getLogger(FailureService.class);
+    private String message;
 
 
-	private FailureService() {
-		//Deny init
-	}
+    public String getMessage() {
+        if (StringUtils.isEmpty(message)) {
+            return "";
+        }
+        return message;
+    }
 
-	public static FailureService getInstance() {
-		if (failureService == null) {
-			synchronized (FailureService.class) {
-				if (failureService == null) {
-					failureService = new FailureService();
-				}
-			}
-		}
-		return failureService;
-	}
-
-	public String getMessage() {
-		if (StringUtils.isEmpty(message)) {
-			return "";
-		}
-		return message;
-	}
-
-	public void setFailure(OnFailure failure) {
-		if(ObjectUtils.isEmpty(failure)){
-			this.message = "";
-		} else {
-			this.message = failure.getMessage();
-		}
-	}
+    public void setFailure(OnFailure failure) {
+        if (ObjectUtils.isEmpty(failure)) {
+            this.message = "";
+        } else {
+            this.message = failure.getMessage();
+        }
+    }
 }

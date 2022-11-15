@@ -11,6 +11,7 @@ package com.datorama.services;
 import com.datorama.common.Constants;
 import org.jboss.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,24 +20,10 @@ import java.util.List;
 /**
  * Find keys in a file.
  */
+@ApplicationScoped
 public class FindKeysService {
-	private static final Logger log = Logger.getLogger(FindKeysService.class);
-	private static FindKeysService findKeysService;
+	static final Logger log = Logger.getLogger(FindKeysService.class);
 
-	private FindKeysService() {
-		//Deny init
-	}
-
-	public static FindKeysService getInstance() {
-		if (findKeysService == null) {
-			synchronized (FindKeysService.class) {
-				if (findKeysService == null) {
-					findKeysService = new FindKeysService();
-				}
-			}
-		}
-		return findKeysService;
-	}
 	public List<String> getKeys(File file) {
 		log.debug("Get Keys from file: " + file.getAbsolutePath());
 		List<String> lines = LineReaderService.readLines(file);

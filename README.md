@@ -13,11 +13,11 @@ Ferret is a Command-line application that executes Ferret pipelines written in Y
 ## Getting Started
 
 
-```{r, echo=FALSE}
+```{p}
 1 + 1
 ```
 
-```{r, results='hide'}
+```
 print("You will not see the text output.")
 ```
 

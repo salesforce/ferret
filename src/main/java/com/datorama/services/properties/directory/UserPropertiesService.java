@@ -14,6 +14,8 @@ import com.datorama.services.interfaces.PropertiesDirectory;
 import com.datorama.services.properties.FilePropertiesService;
 import org.jboss.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,55 +23,45 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Properties;
 
+@ApplicationScoped
 public class UserPropertiesService implements PropertiesDirectory {
-	private static UserPropertiesService userPropertiesService;
-	private static final Logger log = Logger.getLogger(UserPropertiesService.class);
+    static final Logger log = Logger.getLogger(UserPropertiesService.class);
 
-	private UserPropertiesService() {
-		//Deny init
-	}
+	@Inject
+	GlobalDirectoryService globalDirectoryService;
+    @Override
+    public String getFileName() {
+        return "user.properties";
+    }
 
-	public static UserPropertiesService getInstance() {
-		if (userPropertiesService == null) {
-			synchronized (UserPropertiesService.class) {
-				if (userPropertiesService == null) {
-					userPropertiesService = new UserPropertiesService();
-				}
-			}
-		}
-		return userPropertiesService;
-	}
+    @Override
+    public String getKeyPrefix() {
+        return "user.";
+    }
 
-	@Override public String getFileName() {
-		return "user.properties";
-	}
+    @Override
+    public File getFile(Path currentFilePath) {
+        return Paths.get(Constants.FERRET_DIR.toString(), getFileName()).toFile();
+    }
 
-	@Override public String getKeyPrefix() {
-		return "user.";
-	}
+    @Override
+    public Properties getProperties(Path currentFilePath) {
+        return FilePropertiesService.readProperties(getFile(null));
+    }
 
-	@Override public File getFile(Path currentFilePath) {
-		return Paths.get(Constants.FERRET_DIR.toString(), getFileName()).toFile();
-	}
+    public void createDefaultProperties() {
+        if (!Files.exists(getFile(null).toPath())) {
+            globalDirectoryService.createFileInSystem(getFile(null).toPath());
+            Properties properties = new Properties();
+            properties.setProperty("home", System.getProperty("user.home"));
+            FilePropertiesService.writeProperties(getFile(null), properties);
+        }
+    }
 
-	@Override public Properties getProperties(Path currentFilePath) {
-		return FilePropertiesService.readProperties(getFile(null));
-	}
-
-	public void createDefaultProperties() {
-		if (!Files.exists(getFile(null).toPath())) {
-			GlobalDirectoryService globalDirectoryService = GlobalDirectoryService.getInstance();
-			globalDirectoryService.createFileInSystem(getFile(null).toPath());
-			Properties properties = new Properties();
-			properties.setProperty("home", System.getProperty("user.home"));
-			FilePropertiesService.writeProperties(getFile(null), properties);
-		}
-	}
-
-	public void setProperties(Map<String, String> mapOfProperties) {
-		createDefaultProperties();
-		Properties userProperties = FilePropertiesService.readProperties(getFile(null));
-		mapOfProperties.forEach((key, value) -> userProperties.setProperty(key, value));
-		FilePropertiesService.writeProperties(getFile(null), userProperties);
-	}
+    public void setProperties(Map<String, String> mapOfProperties) {
+        createDefaultProperties();
+        Properties userProperties = FilePropertiesService.readProperties(getFile(null));
+        mapOfProperties.forEach((key, value) -> userProperties.setProperty(key, value));
+        FilePropertiesService.writeProperties(getFile(null), userProperties);
+    }
 }

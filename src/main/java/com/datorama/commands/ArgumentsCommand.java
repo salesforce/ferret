@@ -19,16 +19,20 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import picocli.CommandLine;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.nio.file.Files;
 import java.util.Optional;
 
+@ApplicationScoped
 @CommandLine.Command(name = "arguments", aliases = { "args" }, description = "shows arguments list of specific pipeline", subcommands = { CommandLine.HelpCommand.class })
 public class ArgumentsCommand implements Runnable, FerretErrorHandler {
-	private final GlobalDirectoryService globalDirectoryService = GlobalDirectoryService.getInstance();
 	private final ArgumentService argumentService = ArgumentService.getInstance();
 	@CommandLine.Mixin
 	private PipelineOptionsMixin pipelineOptionsMixin;
 
+	@Inject
+	GlobalDirectoryService globalDirectoryService;
 	@Override public void run() {
 		ferretRun(() -> {
 			globalDirectoryService.initialize();

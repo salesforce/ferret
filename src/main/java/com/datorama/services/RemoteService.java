@@ -17,35 +17,30 @@ import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 import picocli.CommandLine;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
+@ApplicationScoped
 public class RemoteService {
-	private static RemoteService remoteService;
 	private static final Logger log = Logger.getLogger(RemoteService.class);
-	private final CredentialsService credentialsService = CredentialsService.getInstance();
-	private final GlobalDirectoryService globalDirectoryService = GlobalDirectoryService.getInstance();
+	@Inject
+	CredentialsService credentialsService;
+	@Inject
+	GlobalDirectoryService globalDirectoryService;
 	private GithubHttpClient githubHttpClient;
 
-	private RemoteService() {
-	}
+	@Inject
+	OutputService outputService;
 
-	public static RemoteService getInstance() {
-		if (remoteService == null) {
-			synchronized (RemoteService.class) {
-				if (remoteService == null) {
-					remoteService = new RemoteService();
-					remoteService.initialize();
-				}
-			}
-		}
-		return remoteService;
-	}
 
-	private void initialize() {
+	@PostConstruct
+	 void initialize() {
 		CredentialsProvider credentialsProvider = credentialsService.getCredentialsProvider();
 		githubHttpClient = new GithubHttpClient(credentialsProvider.getGithubUsername(), credentialsProvider.getGithubToken());
 	}
@@ -74,7 +69,7 @@ public class RemoteService {
 						return downloadedNewerFile.get();
 				}
 			}
-			OutputService.getInstance().error("Failed downloading " + remote.getFile() + " but there is one in local, will use it.");
+			outputService.error("Failed downloading " + remote.getFile() + " but there is one in local, will use it.");
 			return remote.getFilePathInLocal().toFile();
 		}
 		//first time downloading this file

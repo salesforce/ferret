@@ -12,31 +12,36 @@ import com.datorama.exceptions.FerretException;
 import org.jboss.logging.Logger;
 import picocli.CommandLine;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
+
+@ApplicationScoped
 public class OutputService {
-	private static OutputService outputService;
+//	private static OutputService outputService;
 	private static final Logger log = Logger.getLogger(OutputService.class);
 	private PrintStream out;
 
-	private OutputService() {
-		//Deny init
-	}
+//	private OutputService() {
+//		//Deny init
+//	}
 
-	public static OutputService getInstance() {
-		if (outputService == null) {
-			synchronized (OutputService.class) {
-				if (outputService == null) {
-					outputService = new OutputService();
-					outputService.initialize();
-				}
-			}
-		}
-		return outputService;
-	}
+//	public static OutputService getInstance() {
+//		if (outputService == null) {
+//			synchronized (OutputService.class) {
+//				if (outputService == null) {
+//					outputService = new OutputService();
+//					outputService.initialize();
+//				}
+//			}
+//		}
+//		return outputService;
+//	}
 
-	private void initialize() {
+	@PostConstruct
+	void initialize() {
 		try {
 			out = new PrintStream(System.out,true,"UTF-8");
 		} catch (UnsupportedEncodingException e) {

@@ -11,12 +11,15 @@ package com.datorama.commands;
 import com.datorama.exceptions.FerretException;
 import com.datorama.models.RepositoryProvider;
 import com.datorama.services.OutputService;
-import com.datorama.services.properties.RepositoryProperties;
+import com.datorama.services.properties.RepositoryPropertiesService;
 import org.apache.commons.lang3.StringUtils;
 import picocli.CommandLine;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Optional;
 
+@ApplicationScoped
 @CommandLine.Command(name = "repository", aliases = { "repo" }, description = "Settings for repository to get all ferret common pipeline and properties.", subcommands = {
 		CommandLine.HelpCommand.class })
 public class RepositoryCommand implements Runnable, FerretErrorHandler {
@@ -28,6 +31,11 @@ public class RepositoryCommand implements Runnable, FerretErrorHandler {
 	private String repository;
 	@CommandLine.Option(names = { "-b", "--branch" }, description = "the repository branch name")
 	private String branch;
+
+	@Inject
+	OutputService outputService;
+	@Inject
+	RepositoryPropertiesService repositoryPropertiesService;
 
 	@Override public void run() {
 		ferretRun(() -> {
@@ -42,20 +50,20 @@ public class RepositoryCommand implements Runnable, FerretErrorHandler {
 				repositoryProvider.setRepository(repository);
 				repositoryProvider.setOwner(owner);
 				repositoryProvider.setBranch(branch);
-				RepositoryProperties.addProperties(repositoryProvider);
-				OutputService.getInstance().normal("Repository settings set.");
+				repositoryPropertiesService.addProperties(repositoryProvider);
+				outputService.normal("Repository settings set.");
 				setSettings = true;
 			}
 			if (showSettings) {
-				Optional<RepositoryProvider> repositoryProviderOptional = RepositoryProperties.getProperties();
+				Optional<RepositoryProvider> repositoryProviderOptional = repositoryPropertiesService.getProperties();
 				if (!repositoryProviderOptional.isPresent()) {
-					OutputService.getInstance().normal("No settings for repository.");
+					outputService.normal("No settings for repository.");
 				} else {
 					RepositoryProvider repositoryProvider = repositoryProviderOptional.get();
-					OutputService.getInstance().normal("Repository settings are: ");
-					OutputService.getInstance().normal(RepositoryProperties.OWNER_NAME + ": " + repositoryProvider.getOwner());
-					OutputService.getInstance().normal(RepositoryProperties.REPOSITORY_NAME + ": " + repositoryProvider.getRepository());
-					OutputService.getInstance().normal(RepositoryProperties.BRANCH_NAME + ": " + repositoryProvider.getBranch());
+					outputService.normal("Repository settings are: ");
+					outputService.normal(RepositoryPropertiesService.OWNER_NAME + ": " + repositoryProvider.getOwner());
+					outputService.normal(RepositoryPropertiesService.REPOSITORY_NAME + ": " + repositoryProvider.getRepository());
+					outputService.normal(RepositoryPropertiesService.BRANCH_NAME + ": " + repositoryProvider.getBranch());
 				}
 			}
 			//when support open source only to return this

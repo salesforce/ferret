@@ -13,15 +13,23 @@ import com.datorama.services.properties.directory.UserPropertiesService;
 import org.apache.commons.lang3.ObjectUtils;
 import picocli.CommandLine;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Map;
 import java.util.Properties;
 
+@ApplicationScoped
 @CommandLine.Command(name = "user", description = "user properties settings set a property or get current user properties.", subcommands = { CommandLine.HelpCommand.class })
 public class UserCommand implements Runnable, FerretErrorHandler {
 	@CommandLine.Option(names = { "-P", "--property", "-p" }, description = "store new properties for user. example: --property key=value")
-	private Map<String, String> properties;
+	Map<String, String> properties;
 	@CommandLine.Option(names = { "-g", "--get" }, description = "show all properties currently stored in user properties.", paramLabel = "show properties")
-	private boolean showProperties;
+	boolean showProperties;
+
+	@Inject
+	OutputService outputService;
+	@Inject
+	UserPropertiesService userPropertiesService;
 
 	@Override public void run() {
 		ferretRun(() -> {
@@ -30,13 +38,11 @@ public class UserCommand implements Runnable, FerretErrorHandler {
 				commandLine.usage(System.out);
 			}
 			if (ObjectUtils.isNotEmpty(properties)) {
-				UserPropertiesService userPropertiesService = UserPropertiesService.getInstance();
 				userPropertiesService.setProperties(properties);
 			}
 			if (showProperties) {
-				UserPropertiesService userPropertiesService = UserPropertiesService.getInstance();
 				Properties properties = userPropertiesService.getProperties(null);
-				properties.keySet().forEach(key -> OutputService.getInstance().normal("key: " + key + " value: " + properties.getProperty(key.toString())));
+				properties.keySet().forEach(key -> outputService.normal("key: " + key + " value: " + properties.getProperty(key.toString())));
 			}
 		});
 	}

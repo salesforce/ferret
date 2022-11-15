@@ -14,27 +14,15 @@ import com.datorama.services.properties.CredentialsProperties;
 import com.datorama.services.properties.FilePropertiesService;
 import org.jboss.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+@ApplicationScoped
 public class CredentialsService {
-	private static CredentialsService credentialsService;
-	private static final Logger log = Logger.getLogger(CredentialsService.class);
+	 static final Logger log = Logger.getLogger(CredentialsService.class);
 
-	private CredentialsService() {
-	}
-
-	public static CredentialsService getInstance() {
-		if (credentialsService == null) {
-			synchronized (CredentialsService.class) {
-				if (credentialsService == null) {
-					credentialsService = new CredentialsService();
-				}
-			}
-		}
-		return credentialsService;
-	}
 
 	public void setGithubToken(String token) {
 		Properties properties = getCredentialsProperties();

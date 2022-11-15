@@ -10,12 +10,18 @@ package com.datorama.services;
 
 import org.jboss.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
+
+@ApplicationScoped
 public class ExitService {
 
 	private static final Logger log = Logger.getLogger(ExitService.class);
 	private static ExitService exitService;
 
+	@Inject
+	OutputService outputService;
 
 	private ExitService() {
 		//Deny init
@@ -33,7 +39,7 @@ public class ExitService {
 	}
 
 	public void exit(String value, int exitCode) {
-		OutputService.getInstance().error(value);
+		outputService.error(value);
 		System.exit(exitCode);
 	}
 }

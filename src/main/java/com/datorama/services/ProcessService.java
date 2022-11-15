@@ -17,6 +17,9 @@ import org.zeroturnaround.exec.ProcessExecutor;
 import org.zeroturnaround.exec.ProcessResult;
 import picocli.CommandLine;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -28,28 +31,15 @@ import java.util.concurrent.TimeoutException;
 /**
  * Process command and run it.
  */
+@ApplicationScoped
 public class ProcessService {
-	private static ProcessService processService;
-	private GlobalDirectoryService globalDirectoryService = GlobalDirectoryService.getInstance();
+	@Inject
+	GlobalDirectoryService globalDirectoryService;
 	private static final Logger log = Logger.getLogger(ProcessService.class);
 
-	private ProcessService() {
-		//Deny init
-	}
 
-	public static ProcessService getInstance() {
-		if (processService == null) {
-			synchronized (ProcessService.class) {
-				if (processService == null) {
-					processService = new ProcessService();
-					processService.initialize();
-				}
-			}
-		}
-		return processService;
-	}
-
-	private void initialize(){
+	@PostConstruct
+	 void initialize(){
 		globalDirectoryService.createDirectoryInFerretDir(Constants.FERRET_TEMP_SCRIPTS_DIR);
 		FileService.deleteOnlyFilesInDirectory(Constants.FERRET_TEMP_SCRIPTS_DIR);
 	}

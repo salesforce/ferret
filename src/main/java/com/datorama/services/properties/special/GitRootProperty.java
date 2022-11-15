@@ -13,14 +13,18 @@ import com.datorama.services.ProcessService;
 import com.datorama.services.interfaces.SpecialProperty;
 import picocli.CommandLine;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+@ApplicationScoped
 public class GitRootProperty implements SpecialProperty {
-	private static final String GIT_ROOT_COMMAND = "git rev-parse --show-toplevel";
-	private ProcessService processService = ProcessService.getInstance();
+	static final String GIT_ROOT_COMMAND = "git rev-parse --show-toplevel";
+	@Inject
+	 ProcessService processService;
 
 	@Override public String getPropertyKey() {
 		return "git.root.directory";

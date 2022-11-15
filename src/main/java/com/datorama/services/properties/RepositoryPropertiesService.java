@@ -13,19 +13,22 @@ import com.datorama.models.RepositoryProvider;
 import com.datorama.services.GlobalDirectoryService;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Properties;
 
-public class RepositoryProperties  {
+@ApplicationScoped
+public class RepositoryPropertiesService {
 	public static final String REPOSITORY_NAME = "repository";
 	public static final String OWNER_NAME = "owner";
 	public static final String BRANCH_NAME = "branch";
 
-	//when going open source delete the default values;
-
+	@Inject
+	GlobalDirectoryService globalDirectoryService;
 	private static String getFileName() {
 		return "repository.properties";
 	}
@@ -34,9 +37,9 @@ public class RepositoryProperties  {
 		return Paths.get(Constants.FERRET_DIR.toString(), getFileName()).toFile();
 	}
 
-	public static Optional<RepositoryProvider> getProperties() {
+	public  Optional<RepositoryProvider> getProperties() {
 		if (!Files.exists(getFile().toPath())) {
-			GlobalDirectoryService.getInstance().createFileInSystem(getFile().toPath());
+			globalDirectoryService.createFileInSystem(getFile().toPath());
 		}
 		Properties current = FilePropertiesService.readProperties(getFile());
 		RepositoryProvider repositoryProvider = new RepositoryProvider();
@@ -50,9 +53,9 @@ public class RepositoryProperties  {
 		return Optional.of(repositoryProvider);
 	}
 
-	public static void addProperties(RepositoryProvider repositoryProvider) {
+	public  void addProperties(RepositoryProvider repositoryProvider) {
 		if (!Files.exists(getFile().toPath())) {
-			GlobalDirectoryService.getInstance().createFileInSystem(getFile().toPath());
+			globalDirectoryService.createFileInSystem(getFile().toPath());
 		}
 		Properties current = FilePropertiesService.readProperties(getFile());
 		current.setProperty(REPOSITORY_NAME, repositoryProvider.getRepository());

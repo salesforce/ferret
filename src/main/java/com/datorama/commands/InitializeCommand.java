@@ -12,18 +12,27 @@ import com.datorama.services.GlobalDirectoryService;
 import com.datorama.services.OutputService;
 import picocli.CommandLine;
 
-@CommandLine.Command(name = "init", description = "Initialize default ferret configuration.", subcommands = { CommandLine.HelpCommand.class })
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+@ApplicationScoped
+@CommandLine.Command(name = "init", description = "Initialize default ferret configuration.", subcommands = {CommandLine.HelpCommand.class})
 public class InitializeCommand implements Runnable, FerretErrorHandler {
-	@CommandLine.Option(names = { "-F", "--force" }, description = "cleaning up 3rd party libraries")
-	private boolean toDelete;
-	 GlobalDirectoryService globalDirectoryService = GlobalDirectoryService.getInstance();
-	@Override public void run() {
-		ferretRun(()-> {
-			if(toDelete){
-				globalDirectoryService.deleteSubFolder();
-			}
-			globalDirectoryService.initialize();
-			OutputService.getInstance().normal("Done.");
-		});
-	}
+    @Inject
+    GlobalDirectoryService globalDirectoryService;
+    @Inject
+    OutputService outputService;
+    @CommandLine.Option(names = {"-F", "--force"}, description = "cleaning up 3rd party libraries")
+    boolean toDelete;
+
+    @Override
+    public void run() {
+        ferretRun(() -> {
+            if (toDelete) {
+                globalDirectoryService.deleteSubFolder();
+            }
+            globalDirectoryService.initialize();
+            outputService.normal("Done.");
+        });
+    }
 }

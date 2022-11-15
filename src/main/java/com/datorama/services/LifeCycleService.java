@@ -18,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 import picocli.CommandLine;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,36 +33,36 @@ import static com.datorama.common.Constants.USER_HOME_PATH;
 /**
  * something to think about, if 2 terminals open and run ferret, it mean 2 processes or same process. if the same it affect application design. (will need to add flyweight for each singleton, to include unique caller)
  */
+@ApplicationScoped
 public class LifeCycleService {
-    private static final Logger LOG = Logger.getLogger(LifeCycleService.class);
-    private static LifeCycleService lifeCycleService;
-    private final ReplaceKeysService replaceKeysService = ReplaceKeysService.getInstance();
-    private final ProcessService processService = ProcessService.getInstance();
-    private final InputPropertyService inputPropertyService = InputPropertyService.getInstance();
-    private final RewriteYamlService rewriteYamlService = RewriteYamlService.getInstance();
-    private final PropertiesConfigurationInYamlService propertiesConfigurationInYamlService = PropertiesConfigurationInYamlService.getInstance();
-    private final RemoteService remoteService = RemoteService.getInstance();
-    private final WhenService whenService = WhenService.getInstance();
+    static final Logger LOG = Logger.getLogger(LifeCycleService.class);
+    @Inject
+    ArgumentService argumentService;
+    @Inject
+    FailureService failureService;
+    @Inject
+    SummaryService summaryService;
+    @Inject
+    IntroductionService introductionService;
+    @Inject
+    ReplaceKeysService replaceKeysService;
+    @Inject
+    ProcessService processService;
+    @Inject
+    InputPropertyService inputPropertyService;
+    @Inject
+    RewriteYamlService rewriteYamlService;
+    @Inject
+    PropertiesConfigurationInYamlService propertiesConfigurationInYamlService;
+    @Inject
+    RemoteService remoteService;
+    @Inject
+    WhenService whenService;
+    @Inject
+    OutputService outputService;
+    @Inject
+    PipelinesRepositoryService pipelinesRepositoryService;
     private LifeCycleEnum lifeCycleEnum;
-    private final ArgumentService argumentService = ArgumentService.getInstance();
-    private final FailureService failureService = FailureService.getInstance();
-    private final SummaryService summaryService = SummaryService.getInstance();
-    private final IntroductionService introductionService = IntroductionService.getInstance();
-
-    private LifeCycleService() {
-        //Deny init
-    }
-
-    public static LifeCycleService getInstance() {
-        if (lifeCycleService == null) {
-            synchronized (LifeCycleService.class) {
-                if (lifeCycleService == null) {
-                    lifeCycleService = new LifeCycleService();
-                }
-            }
-        }
-        return lifeCycleService;
-    }
 
     private LifeCycleEnum getLifeCycleEnum() {
         if (ObjectUtils.isEmpty(lifeCycleEnum)) {
@@ -112,7 +114,7 @@ public class LifeCycleService {
         if (toRun) {
             List<Command> commandsToExecute = getCommandList(stageAtt);
             if (!commandsToExecute.isEmpty()) {
-                OutputService.getInstance().header1(String.format("Running stage: %s, description: %s.", stageName, stageAtt.getDescription()));
+                outputService.header1(String.format("Running stage: %s, description: %s.", stageName, stageAtt.getDescription()));
                 fillInputMap(mapToCorrupt, stageAtt.getInputs(), stageDirectory);
                 SummaryStage summaryStage = summaryService.startOfStage(stageAtt.getSummary(), stageName, mapToCorrupt);
                 commandsToExecute.forEach(command -> execute(stageDirectory, command, mapToCorrupt));
@@ -151,7 +153,7 @@ public class LifeCycleService {
     private void executeCommandLine(Path stageDirectory, Command command, Map<String, String> inputMap) {
         Path commandDirectory = FileService.getCurrentDirectory(command.getDirectory(), stageDirectory);
         String commandValue = replaceKeysService.replaceKeysInLine(command.getCommand(), inputMap);
-        OutputService.getInstance().header2(String.format("Running command: %s, working directory: %s.", commandValue, commandDirectory.toString()));
+        outputService.header2(String.format("Running command: %s, working directory: %s.", commandValue, commandDirectory.toString()));
         processService.runCommandWithoutResult(commandValue, commandDirectory);
     }
 
@@ -166,13 +168,13 @@ public class LifeCycleService {
         //pull and add all from common repo
         GitRepositoryService.getInstance();
         if (StringUtils.isNotEmpty(apply.getFile())) {
-            OutputService.getInstance().header1("Applying yaml file: " + apply.getFile());
+            outputService.header1("Applying yaml file: " + apply.getFile());
             appliedFile = new File(apply.getFile());
             runLifeCycleSectionInPipeline(appliedFile, apply.getStage(), argumentService.listFromApplyToMap(apply));
             return;
         }
         if (ObjectUtils.isNotEmpty(apply.getRemote())) {
-            OutputService.getInstance().header1("Applying remote: " + apply.getRemote());
+            outputService.header1("Applying remote: " + apply.getRemote());
             String suffix = apply.getRemote().getFileNameSuffix();
             if (!StringUtils.equalsAnyIgnoreCase(suffix, "yaml", "yml")) {
                 throw new FerretException("Ferret pipeline only support YAML file type. not file type: " + suffix, CommandLine.ExitCode.USAGE);
@@ -183,14 +185,13 @@ public class LifeCycleService {
         }
 
         if (StringUtils.isNotEmpty(apply.getPipeline())) {
-            PipelinesRepositoryService pipelinesRepositoryService = PipelinesRepositoryService.getInstance();
             Optional<PipelineProvider> pipelineProviderOptional = pipelinesRepositoryService.pipelines().stream().filter(pipelineProvider -> pipelineProvider.getKeyPrefix().equals(apply.getPipeline()))
                     .findFirst();
             if (pipelineProviderOptional.isPresent()) {
-                OutputService.getInstance().header1("Applying pipeline: " + apply.getPipeline());
+                outputService.header1("Applying pipeline: " + apply.getPipeline());
                 appliedFile = pipelineProviderOptional.get().getPath().toFile();
                 runLifeCycleSectionInPipeline(appliedFile, apply.getStage(), argumentService.listFromApplyToMap(apply));
-			} else {
+            } else {
                 throw new FerretException("Didn't find " + apply.getPipeline() + " in the repository given. To list available pipelines:, type: ferret pipelines", CommandLine.ExitCode.USAGE);
             }
         }
@@ -210,7 +211,7 @@ public class LifeCycleService {
             } catch (FerretException e) {
                 throw new FerretException(e.getMessage(), e.getExitCode());
             }
-		}
+        }
     }
 
     private void fillInputMap(Map<String, String> inputMap, List<Input> inputs, Path directory) {

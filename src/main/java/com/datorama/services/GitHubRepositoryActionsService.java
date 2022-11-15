@@ -16,33 +16,25 @@ import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 import picocli.CommandLine;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+@ApplicationScoped
 public class GitHubRepositoryActionsService {
-	private static GitHubRepositoryActionsService gitActionsService;
-	private static final Logger log = Logger.getLogger(GitHubRepositoryActionsService.class);
-	private final ProcessService processService = ProcessService.getInstance();
-	private final GlobalDirectoryService globalDirectoryService = GlobalDirectoryService.getInstance();
+	static final Logger log = Logger.getLogger(GitHubRepositoryActionsService.class);
+	@Inject
+	ProcessService processService;
+	@Inject
+	GlobalDirectoryService globalDirectoryService;
 
-	private GitHubRepositoryActionsService() {
-		//Deny init
-	}
-
-	public static GitHubRepositoryActionsService getInstance() {
-		if (gitActionsService == null) {
-			synchronized (GitHubRepositoryActionsService.class) {
-				if (gitActionsService == null) {
-					gitActionsService = new GitHubRepositoryActionsService();
-				}
-			}
-		}
-		return gitActionsService;
-	}
+	@Inject
+	OutputService outputService;
 
 	public void clone(Path repoToCloneIn, RepositoryProvider repositoryProvider, CredentialsProvider credentialsProvider) {
-		OutputService.getInstance().normal("Cloning " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository() + "...");
+		outputService.normal("Cloning " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository() + "...");
 		globalDirectoryService.createDirectoryInFerretDir(repoToCloneIn);
 		String gitCloneCommand = fullGitCloneCommand(repositoryProvider, credentialsProvider);
 		Optional<ProcessResponse> processResponseOptional = processService.runCommand(gitCloneCommand, repoToCloneIn);
@@ -51,7 +43,7 @@ public class GitHubRepositoryActionsService {
 			log.warn("Failed in cloning error message: " + processResponse.getOutput().orElse(""));
 			throw new FerretException("Failed cloning repository " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository(), CommandLine.ExitCode.SOFTWARE);
 		}
-		OutputService.getInstance().normal("Finished cloning " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository());
+		outputService.normal("Finished cloning " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository());
 	}
 
 	public void checkIfGitExist(Path repoToCloneIn) {
@@ -74,7 +66,7 @@ public class GitHubRepositoryActionsService {
 
 	public void pull(Path directoryOfRepositoryOfFerretGitRepositories, RepositoryProvider repositoryProvider, CredentialsProvider credentialsProvider) throws FerretException {
 		Path clonedRepositoryDir = clonedRepositoryDirPath(directoryOfRepositoryOfFerretGitRepositories, repositoryProvider);
-		OutputService.getInstance().normal("Pulling " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository() + "...");
+		outputService.normal("Pulling " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository() + "...");
 		boolean httpsURLIsCorrect = httpsURLIsCorrect(clonedRepositoryDir, repositoryProvider, credentialsProvider);
 		boolean isBranchCorrect = checkBranchIsCorrect(clonedRepositoryDir, repositoryProvider);
 		if (!httpsURLIsCorrect || !isBranchCorrect) {
@@ -84,10 +76,10 @@ public class GitHubRepositoryActionsService {
 		Optional<ProcessResponse> processResponseOptional = processService.runCommand("git pull", clonedRepositoryDir);
 		if (processResponseOptional.get().getExitCode() != 0) {
 			log.warn("Failed pulling message: " + processResponseOptional.get().getOutput().orElse(""));
-			OutputService.getInstance().normal("Failed pulling repository " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository() + ", but allowing to keep running pipeline.");
+			outputService.normal("Failed pulling repository " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository() + ", but allowing to keep running pipeline.");
 			//			throw new FerretException("Failed pulling repository " +  repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository(), CommandLine.ExitCode.SOFTWARE);
 		}
-		OutputService.getInstance().normal("Finished pulling " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository());
+		outputService.normal("Finished pulling " + repositoryProvider.getOwner() + "/" + repositoryProvider.getRepository());
 	}
 
 	public Path clonedRepositoryDirPath(Path directoryOfRepositoryOfFerretGitRepositories, RepositoryProvider repositoryProvider) {
